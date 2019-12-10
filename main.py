@@ -2596,23 +2596,30 @@ def thithi(request):
         complete_message = update.message.text.split(' ')
         if complete_message[0] == '/tithi':
             try:
-                print("date received: ", complete_message[1])
-                date_check = datetime.datetime.strptime(complete_message[1],"%m-%d-%Y")
-                r_date = complete_message[1].split('-')
+                date_string = f"{datetime.datetime.today().date():%m-%d-%Y}" if str.upper(complete_message[1]) == 'TODAY' else complete_message[1]
+                print("date received: ", date_string)
+                date_check = datetime.datetime.strptime(date_string,"%m-%d-%Y")
+            except:
+                res_text = 'Please enter a valid date in mm-dd-yyyy format'
+            else:
+                r_date = date_string.split('-')
                 if(r_date[2] != '2019'):
                    res_text = 'I can only give you 2019 details'
                 else:
-                   r_d = int(r_date[1]) - 1
-                   r_m = int(r_date[0]) - 1
-                   ar = "panchangam_" + months[r_m]
-                   t_data = "Thithi: " + source_data[ar][r_d]['Thithi'] +  "\n" 
-                   n_data = "Nakshatram: " + source_data[ar][r_d]['Nakshatram'] +  "\n"
-                   r_data = "Rahukalam: " + source_data[ar][r_d]['Rahukalam'] +  "\n"
-                   d_data = "Durmuhurtam: " + source_data[ar][r_d]['Durmuhurtam'] +  "\n"
-                   v_data = "Varjam: " + source_data[ar][r_d]['Varjam'] +  "\n"
-                   res_text = t_data + n_data + r_data + d_data + v_data
-            except:
-                   res_text = 'Please enter a valid date in mm-dd-yyyy format'
+                   try:
+                       r_d = int(r_date[1]) - 1
+                       r_m = int(r_date[0]) - 1
+                   except:
+                       res_text = 'Invalid date in the request, please use /help'
+                   else:
+                       ar = "panchangam_" + months[r_m]
+                       i_data = "   Date:  " + date_string + "\n"
+                       t_data = "Thithi: " + source_data[ar][r_d]['Thithi'] +  "\n" 
+                       n_data = "Nakshatram: " + source_data[ar][r_d]['Nakshatram'] +  "\n"
+                       r_data = "Rahukalam: " + source_data[ar][r_d]['Rahukalam'] +  "\n"
+                       d_data = "Durmuhurtam: " + source_data[ar][r_d]['Durmuhurtam'] +  "\n"
+                       v_data = "Varjam: " + source_data[ar][r_d]['Varjam'] +  "\n"
+                       res_text = i_data + t_data + n_data + r_data + d_data + v_data
         elif complete_message[0] == '/start':
             res_text = 'Hello! I am bot, please use /help to know what I can do'
         elif complete_message[0] == '/help':
