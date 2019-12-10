@@ -2592,7 +2592,7 @@ source_data = {
 def thithi(request):
     if request.method == 'POST':
         update = telegram.Update.de_json(request.get_json(request),bot)
-        chat_id = update.message.chat.id
+        chat_id = update.message.chat_id
         complete_message = update.message.text.split(' ')
         if complete_message[0] == '/tithi':
             try:
