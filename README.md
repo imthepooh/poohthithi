@@ -1,9 +1,9 @@
 # poohthithi
-Code for Telegram bot (t.me/kaalambot) for Tithi, Nakshatram, Durmuhurtam, Rahukalam and Varjam details for the day provided in the year 2019.
+Code for Telegram bot (t.me/kaalambot) for Tithi, Nakshatram, Durmuhurtam, Rahukalam and Varjam details for the day provided in the year 2020.
 
 The request should be sent as /tithi <mm-dd-yyyy>
 
-The response is only configured for the dates in the year 2019.
+The response is only configured for the dates in the year 2020.
 
 All times mentioned are in PST.
 

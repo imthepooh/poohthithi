@@ -1,2590 +1,2593 @@
 import os 
 import telegram
 import datetime
+from pytz import timezone
 
 bot = telegram.Bot(token=os.environ["TOKEN"])
-months = list(['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'])
+months = list(['jan','feb','mar','april','may','june','july','aug','sep','oct','nov','dec'])
 source_data = {
 	"panchangam_jan": [{
-			"Thithi": "Ekadashi 11:58",
-			"Nakshatram": "Vishakha 08:10",
-			"Rahukalam": "14:34-15:45",
-			"Durmuhurtam": "09:21-09:59",
-			"Varjam": "24:24-26:06"
+			"Thithi": "Saptami Full",
+			"Nakshatram": "Purvabhadra 14:53",
+			"Rahukalam": "12:11-13:24",
+			"Durmuhurtam": "11:52-12:31",
+			"Varjam": "None"
 		},
 		{
-			"Thithi": "Dwadashi 12:40",
-			"Nakshatram": "Anuradha 21:33",
-			"Rahukalam": "12:12-13:24",
-			"Durmuhurtam": "11:53-12:31",
-			"Varjam": "27:35-29:18"
-		},
-		{
-			"Thithi": "Trayodashi 13:51",
-			"Nakshatram": "Jyeshta 23:23",
-			"Rahukalam": "13:24-14:37",
+			"Thithi": " Saptami 7:30",
+			"Nakshatram": "Uttarabhadra 17:50",
+			"Rahukalam": "13:24-14:36",
 			"Durmuhurtam": "10:36-11:14",
+			"Varjam": "31:13-33:00"
+		},
+		{
+			"Thithi": " Ashtami 09:56",
+			"Nakshatram": "Revathi 20:35",
+			"Rahukalam": "11:00-12:12",
+			"Durmuhurtam": "09:19-09:57",
 			"Varjam": "None"
 		},
 		{
-			"Thithi": "Chaturdashi 15:27",
-			"Nakshatram": "Mula 25:37",
-			"Rahukalam": "11:00-12:13",
-			"Durmuhurtam": "09:19-09:58",
-			"Varjam": "23:52-25-37"
+			"Thithi": "Navami 12:02",
+			"Nakshatram": "Ashwini 22:57",
+			"Rahukalam": "09:48-11:00",
+			"Durmuhurtam": "07:24-8:41",
+			"Varjam": "18:33-20:19"
 		},
 		{
-			"Thithi": "Amavasya 17:28",
-			"Nakshatram": "Purvashada 28:13",
-			"Rahukalam": "09:48-11:01",
-			"Durmuhurtam": "07:24-08:41",
-			"Varjam": "12:15-14:02"
+			"Thithi": "Dashami 13:37",
+			"Nakshatram": "Bharani 24:45",
+			"Rahukalam": "15:50-17:02",
+			"Durmuhurtam": "15:45-16:24",
+			"Varjam": "9:16-11:00"
 		},
 		{
-			"Thithi": "Pausha Shukla, Prathama 19:48",
-			"Nakshatram": "Uttarashada 31:06",
-			"Rahukalam": "15:51-17:04",
-			"Durmuhurtam": "15:46-16:25",
-			"Varjam": "13:10-14:58"
-		},
-		{
-			"Thithi": "Dwitiya 22:24",
-			"Nakshatram": "Shravana Full Night",
+			"Thithi": "Ekadashi 14:32",
+			"Nakshatram": "Krittika 25:54",
 			"Rahukalam": "08:36-09:49",
-			"Durmuhurtam": "12:33-13:12",
-			"Varjam": "11:36-13:25"
+			"Durmuhurtam": "14:29-15:07",
+			"Varjam": "13:20-15:00"
 		},
 		{
-			"Thithi": "Tritiya 25:08",
-			"Nakshatram": "Shravana 10:10",
-			"Rahukalam": "14:40-15:53",
-			"Durmuhurtam": "09:20-09:59",
-			"Varjam": "14:42-16:30"
+			"Thithi": "Dvadashi 14:44",
+			"Nakshatram": "Rohini 26:21",
+			"Rahukalam": "14:39-15:52",
+			"Durmuhurtam": "09:20-09:58",
+			"Varjam": "18:12-19:50"
 		},
 		{
-			"Thithi": "Chaturthi 27:52",
-			"Nakshatram": "Dhanishta 13:19",
-			"Rahukalam": "12:15-13:28",
+			"Thithi": "Trayodashi 14:14",
+			"Nakshatram": "Mrigashira 26:08",
+			"Rahukalam": "12:14-13:27",
 			"Durmuhurtam": "11:55-12:34",
-			"Varjam": "21:27-23:15"
+			"Varjam": "07:54-11:09"
 		},
 		{
-			"Thithi": "Panchami 30:24",
-			"Nakshatram": "Sathabhisha 16:24",
-			"Rahukalam": "13:28-14:41",
+			"Thithi": "Chaturdashi 13:04",
+			"Nakshatram": "Aardra 25:18",
+			"Rahukalam": "13:28-14:40",
 			"Durmuhurtam": "10:38-11:17",
-			"Varjam": "23:33-25:20"
+			"Varjam": "10:14-11:47"
 		},
 		{
-			"Thithi": "Shashti Full Night",
-			"Nakshatram": "Purvabhadra 19:13",
-			"Rahukalam": "11:03-12:16",
-			"Durmuhurtam": "09:20-09:59, 12:35-13:14",
-			"Varjam": ""
+			"Thithi": "Purnima 11:21",
+			"Nakshatram": "Punarvasu 24:00",
+			"Rahukalam": "11:02-12:15",
+			"Durmuhurtam": "12:35-13:14",
+			"Varjam": "12:39-14:10"
 		},
 		{
-			"Thithi": "Shashti 08:34",
-			"Nakshatram": "Uttarabhadra 21:36",
-			"Rahukalam": "09:50-11:03",
+			"Thithi": "Prathama 09:11",
+			"Nakshatram": "Dvitiiya 30:42, Pushya 22:19",
+			"Rahukalam": "09:49-11:02",
 			"Durmuhurtam": "07:23-08:41",
-			"Varjam": "None"
+			"Varjam": "07:26-08:56"
 		},
 		{
-			"Thithi": "Saptami 10:12",
-			"Nakshatram": "Revati 23:22",
-			"Rahukalam": "15:57-17:10",
-			"Durmuhurtam": "15:52-16:31",
-			"Varjam": "10:29-12:12"
+			"Thithi": "Tritiiya 28:02",
+			"Nakshatram": "Aslesha 20:25",
+			"Rahukalam": "15:56-17:09",
+			"Durmuhurtam": "15:51-16:30",
+			"Varjam": "10:06-11:35"
 		},
 		{
-			"Thithi": "Ashtami 11:07",
-			"Nakshatram": "Ashvini 24:26",
+			"Thithi": "Chaturthi 25:19",
+			"Nakshatram": "Magha 18:25",
 			"Rahukalam": "08:36-09:50",
-			"Durmuhurtam": "12:36-13:16",
-			"Varjam": "20:15-21:55"
+			"Durmuhurtam": "12:36-13:15",
+			"Varjam": "25:46-27:14"
 		},
 		{
-			"Thithi": "Navami 11:15",
-			"Nakshatram": "Bharani 24:42",
-			"Rahukalam": "14:45-15:59",
-			"Durmuhurtam": "09:20-10:00",
-			"Varjam": "10:08-11:45"
+			"Thithi": "Panchami 22:40",
+			"Nakshatram": "Purvaphalguni 16:27",
+			"Rahukalam": "14:44-15:57",
+			"Durmuhurtam": "09:20-09:59",
+			"Varjam": "23:06-24:34"
 		},
 		{
-			"Thithi": "Dashami 10:33",
-			"Nakshatram": "Krittika 24:10",
-			"Rahukalam": "12:18-13:32",
-			"Durmuhurtam": "11:58-12:37",
-			"Varjam": "12:26-14:00"
+			"Thithi": "Shashthi 20:11",
+			"Nakshatram": "Uttarai 14:37",
+			"Rahukalam": "12:17-13:31",
+			"Durmuhurtam": "11:57-12:37",
+			"Varjam": "22:27-23:56"
 		},
 		{
-			"Thithi": "Ekadashi 09:04, Dwadashi 30:52",
-			"Nakshatram": "Rohini 22:55",
-			"Rahukalam": "",
-			"Durmuhurtam": "10:39-11:19",
-			"Varjam": "15:20-16:51"
+			"Thithi": "Saptami 17:58",
+			"Nakshatram": "Hasta 13:00",
+			"Rahukalam": "13:31-14:45",
+			"Durmuhurtam": "10:39-11:18",
+			"Varjam": "20:34-22:05"
 		},
 		{
-			"Thithi": "Trayodashi 28:04",
-			"Nakshatram": "Mrigashira 21:01",
+			"Thithi": "Ashtami 16:03",
+			"Nakshatram": "Chitra 11:42",
 			"Rahukalam": "11:04-12:18",
-			"Durmuhurtam": "09:20-10:00, 12:38-13:18",
-			"Varjam": ""
+			"Durmuhurtam": "09:20-10:00",
+			"Varjam": "17:05-18:37"
 		},
 		{
-			"Thithi": "Chaturdashi 24:49",
-			"Nakshatram": "Aardra 18:37",
+			"Thithi": "Navami 14:30",
+			"Nakshatram": "Swati 10:45",
 			"Rahukalam": "09:50-11:04",
 			"Durmuhurtam": "07:21-08:40",
-			"Varjam": "29:14-30:39"
+			"Varjam": "16:13-17:47"
 		},
 		{
-			"Thithi": "Purnima 21:15",
-			"Nakshatram": "Punarvasu 15:52",
-			"Rahukalam": "16:03-17:18",
-			"Durmuhurtam": "15:58-16:38",
-			"Varjam": "22:54-24:18"
+			"Thithi": "Dashami 13:21",
+			"Nakshatram": "Vishaakha 10:11",
+			"Rahukalam": "16:02-17:16",
+			"Durmuhurtam": "15:57-16:37",
+			"Varjam": "14:09-15:44"
 		},
 		{
-			"Thithi": "Pratipath 17:34",
-			"Nakshatram": "Pushya 12:57",
-			"Rahukalam": "08:34-09:49",
-			"Durmuhurtam": "12:39-13:19",
-			"Varjam": "24:11-25:36"
+			"Thithi": "Ekadashi 12:36",
+			"Nakshatram": "Anuraadha 10:00",
+			"Rahukalam": "08:35-09:49",
+			"Durmuhurtam": "12:39-13:18",
+			"Varjam": "15:39-17:16"
 		},
 		{
-			"Thithi": "Dwitiya 13:56",
-			"Nakshatram": "Ashlesha 10:01, Magha 31:16",
-			"Rahukalam": "14:50-16:05",
-			"Durmuhurtam": "09:19-09:59",
-			"Varjam": "20:39-22:04"
-		},
-		{
-			"Thithi": "Tritiya 10:29",
-			"Nakshatram": "Purvaphalguni 28:51",
-			"Rahukalam": "12:20-13:35",
-			"Durmuhurtam": "12:00-12:40",
-			"Varjam": "14:28-15:54"
-		},
-		{
-			"Thithi": "Chaturthi 07:23, Panchami 28:48",
-			"Nakshatram": "Uttara 26:55",
-			"Rahukalam": "13:35-14:51",
-			"Durmuhurtam": "10:39-11:20",
-			"Varjam": "11:28-12:56"
-		},
-		{
-			"Thithi": "Shashti 26:49",
-			"Nakshatram": "Hasta 25:34",
-			"Rahukalam": "11:04-12:20",
-			"Durmuhurtam": "09:18-09:59",
-			"Varjam": "10:50-12:21"
-		},
-		{
-			"Thithi": "Saptami 25:32",
-			"Nakshatram": "Chitra 24:54",
-			"Rahukalam": "09:48-11:04",
-			"Durmuhurtam": "07:17-08:38",
-			"Varjam": "09:21-10:54"
-		},
-		{
-			"Thithi": "Ashtami 24:59",
-			"Nakshatram": "Swathi 24:58",
-			"Rahukalam": "16:09-17:25",
-			"Durmuhurtam": "16:04-16:45",
-			"Varjam": "30:45-32:24"
-		},
-		{
-			"Thithi": "Navami 25:10",
-			"Nakshatram": "Vishakha 25:44",
-			"Rahukalam": "08:32-09:48",
-			"Durmuhurtam": "12:41-13:22",
-			"Varjam": "29:58-31:40"
-		},
-		{
-			"Thithi": "Dashami 26:03",
-			"Nakshatram": "Anuradha 27:10",
-			"Rahukalam": "14:54-16:11",
-			"Durmuhurtam": "09:17-09:58",
-			"Varjam": "None"
-		},
-		{
-			"Thithi": "Ekadashi 27:31",
-			"Nakshatram": "Jyeshta 29:10",
-			"Rahukalam": "12:21-13:38",
-			"Durmuhurtam": "12:01-12:42",
-			"Varjam": "09:14-10:58"
-		},
-		{
-			"Thithi": "Dwadashi 29:29",
-			"Nakshatram": "Mula Full Night",
-			"Rahukalam": "13:38-14:55",
-			"Durmuhurtam": "10:38-11:20",
-			"Varjam": "29:51-31:37"
-		}
-	],
-
-	"panchangam_feb": [{
-			"Thithi": "Trayodashi Full N",
-			"Nakshatram": "Mula 07:37",
-			"Rahukalam": "11:04-12:21",
-			"Durmuhurtam": "09:16-09:57",
-			"Varjam": "18:20-20:07"
-		},
-		{
-			"Thithi": "Trayodashi 07:48",
-			"Nakshatram": "Purvashada 10:24",
-			"Rahukalam": "09:46-11:04",
-			"Durmuhurtam": "07:11-08:34",
-			"Varjam": "19:24-21:12"
-		},
-		{
-			"Thithi": "Chaturdashi 10:22",
-			"Nakshatram": "Uttarashada 13:25",
-			"Rahukalam": "16:15-17:33",
-			"Durmuhurtam": "16:10-16:51",
-			"Varjam": "17:56-19:44"
-		},
-		{
-			"Thithi": "Amavasya 13:03",
-			"Nakshatram": "Shravana 16:31",
-			"Rahukalam": "08:28-09:46",
-			"Durmuhurtam": "12:43-13:24",
-			"Varjam": "21:02-22:51"
-		},
-		{
-			"Thithi": "Magha Shukla Pratipath 15:45",
-			"Nakshatram": "Dhanishta 19:38",
-			"Rahukalam": "14:59-16:17",
-			"Durmuhurtam": "09:14-09:56",
-			"Varjam": "27:44-29:32"
-		},
-		{
-			"Thithi": "Dwitiya 18:22",
-			"Nakshatram": "Satabhisha 22:39",
-			"Rahukalam": "12:22-13:41",
-			"Durmuhurtam": "12:01-12:43",
-			"Varjam": "29:48-31:35"
-		},
-		{
-			"Thithi": "Tritiya 20:48",
-			"Nakshatram": "Purvabhadra 25:28",
-			"Rahukalam": "",
-			"Durmuhurtam": "Dur",
-			"Varjam": "Var"
-		},
-		{
-			"Thithi": "Chaturthi 22:55",
-			"Nakshatram": "Uttarabhadra 28:00",
-			"Rahukalam": "11:03-12:22",
-			"Durmuhurtam": "09:12-09:54",
-			"Varjam": "12:05-13:51"
-		},
-		{
-			"Thithi": "Panchami 24:39",
-			"Nakshatram": "Revathi 30:07",
-			"Rahukalam": "09:43-11:03",
-			"Durmuhurtam": "07:05-08:29",
-			"Varjam": "17:03-18:48"
-		},
-		{
-			"Thithi": "Shashti 25:50",
-			"Nakshatram": "Ashwini Full Night",
-			"Rahukalam": "16:21-17:41",
-			"Durmuhurtam": "16:16-16:58",
-			"Varjam": "27:26-29:09"
-		},
-		{
-			"Thithi": "Saptami 26:24",
-			"Nakshatram": "Ashwini 07:42",
-			"Rahukalam": "08:22-09:42",
-			"Durmuhurtam": "12:43-13:26",
-			"Varjam": "17:42-19:21"
-		},
-		{
-			"Thithi": "Ashtami 26:16",
-			"Nakshatram": "Bharani 08:40",
-			"Rahukalam": "15:02-16:23",
-			"Durmuhurtam": "09:10-09:52",
-			"Varjam": "20:49-22:26"
-		},
-		{
-			"Thithi": "Navami 25:24",
-			"Nakshatram": "Krittika 08:57",
-			"Rahukalam": "12:22-13:43",
-			"Durmuhurtam": "12:01-12:44",
-			"Varjam": "24:40-26:14"
-		},
-		{
-			"Thithi": "Dashami 23:48",
-			"Nakshatram": "Rohini 08:31",
-			"Rahukalam": "13:43-15:03",
-			"Durmuhurtam": "10:34-11:17",
-			"Varjam": "13:51-15:22"
-		},
-		{
-			"Thithi": "Ekadashi 21:32",
-			"Nakshatram": "Mrigashira 07:22, Aardra 29:35",
-			"Rahukalam": "11:01-12:22",
-			"Durmuhurtam": "09:08-09:51",
-			"Varjam": "15:09-16:38"
-		},
-		{
-			"Thithi": "Dwadashi 18:40",
-			"Nakshatram": "Punarvasu 27:15",
-			"Rahukalam": "09:39-11:01",
-			"Durmuhurtam": "06:57-08:24",
-			"Varjam": "16:25-17:52"
-		},
-		{
-			"Thithi": "Trayodashi 15:20",
-			"Nakshatram": "Pushya 24:31",
-			"Rahukalam": "16:27-17:48",
-			"Durmuhurtam": "16:21-17:05",
-			"Varjam": "10:21-11:46"
-		},
-		{
-			"Thithi": "Chaturdashi 11:41",
-			"Nakshatram": "Ashlesha 21:33",
-			"Rahukalam": "08:16-09:38",
-			"Durmuhurtam": "12:44-13:27",
-			"Varjam": "11:44-13:08"
-		},
-		{
-			"Thithi": "Poornima 07:53, Prathama 28:06",
-			"Nakshatram": "Magha 18:30",
-			"Rahukalam": "15:06-16:28",
-			"Durmuhurtam": "09:05-09:48",
-			"Varjam": "08:01-09:25"
-		},
-		{
-			"Thithi": "Dwitiya 24:31",
-			"Nakshatram": "Pubba 15:34",
-			"Rahukalam": "12:22-13:44",
-			"Durmuhurtam": "12:00-12:44",
-			"Varjam": "21:58-23:24"
-		},
-		{
-			"Thithi": "Tritiya 21:20",
-			"Nakshatram": "Uttara 12:56",
-			"Rahukalam": "13:44-15:07",
-			"Durmuhurtam": "10:31-11:15",
-			"Varjam": "20:35-22:02"
-		},
-		{
-			"Thithi": "Chaturthi 18:40",
-			"Nakshatram": "Hasta 10:47",
-			"Rahukalam": "10:58-12:21",
-			"Durmuhurtam": "09:02-09:46",
-			"Varjam": "18:17-19:47"
-		},
-		{
-			"Thithi": "Panchami 16:43",
-			"Nakshatram": "Chitra 09:17",
-			"Rahukalam": "09:35-10:58",
-			"Durmuhurtam": "06:48-08:17",
-			"Varjam": "14:42-16:15"
-		},
-		{
-			"Thithi": "Shashti 15:34",
-			"Nakshatram": "Swathi 08:32",
-			"Rahukalam": "16:32-17:55",
-			"Durmuhurtam": "16:26-17:11",
-			"Varjam": "14:09-15:46"
-		},
-		{
-			"Thithi": "Saptami 15:16",
-			"Nakshatram": "Vishakha 08:38",
-			"Rahukalam": "08:09-09:33",
-			"Durmuhurtam": "12:43-13:28",
-			"Varjam": "12:47-14:27"
-		},
-		{
-			"Thithi": "Ashtami 15:50",
-			"Nakshatram": "Anuradha 09:33",
-			"Rahukalam": "15:09-16:33",
-			"Durmuhurtam": "08:59-09:44",
-			"Varjam": "15:33-17:16"
-		},
-		{
-			"Thithi": "Navami 17:10",
-			"Nakshatram": "Jyeshta 11:15",
-			"Rahukalam": "12:21-13:45",
-			"Durmuhurtam": "11:58-12:43",
-			"Varjam": "None"
-		},
-		{
-			"Thithi": "Dashami 19:09",
-			"Nakshatram": "Mula 13:36",
-			"Rahukalam": "13:45-15:10",
-			"Durmuhurtam": "10:27-11:13",
-			"Varjam": "11:50-13:36"
-		}
-	],
-
-
-	"panchangam_mar": [{
-			"Thithi": "Ekadashi 21:34",
-			"Nakshatram": "Purvashada 16:24",
-			"Rahukalam": "10:55-12:20",
-			"Durmuhurtam": "08:56-09:42",
-			"Varjam": "25:26-27:14"
-		},
-		{
-			"Thithi": "Dwadashi 24:14",
-			"Nakshatram": "Uttarashada 19:29",
-			"Rahukalam": "09:29-10:55",
-			"Durmuhurtam": "06:39-08:10",
-			"Varjam": "24:01-25:50"
-		},
-		{
-			"Thithi": "Trayodashi 26:58",
-			"Nakshatram": "Sravana 22:40",
-			"Rahukalam": "16:37-18:02",
-			"Durmuhurtam": "16:31-17:17",
-			"Varjam": "27:11-28:59"
-		},
-		{
-			"Thithi": "Chaturdashi 29:37",
-			"Nakshatram": "Dhanishta 25:46",
-			"Rahukalam": "08:02-09:28",
-			"Durmuhurtam": "12:43-13:28",
-			"Varjam": "None"
-		},
-		{
-			"Thithi": "Amavasya Full Night",
-			"Nakshatram": "Shatabhisha 28:43",
-			"Rahukalam": "15:12-16:38",
-			"Durmuhurtam": "08:52-09:38",
-			"Varjam": "09:51-11:39"
-		},
-		{
-			"Thithi": "Amavasya 08:03",
-			"Nakshatram": "Purvabhadra Full Night",
-			"Rahukalam": "12:19-13:46",
-			"Durmuhurtam": "11:56-12:42",
-			"Varjam": "11:50-13:36"
-		},
-		{
-			"Thithi": "Phalguna Shukla Pratipath 10:13",
-			"Nakshatram": "Purvabhadra 07:24",
-			"Rahukalam": "13:46-15:13",
-			"Durmuhurtam": "10:23-11:09",
-			"Varjam": "17:57-19:42"
-		},
-		{
-			"Thithi": "Dwitiya 12:04",
-			"Nakshatram": "Uttarabhadra 09:46",
-			"Rahukalam": "10:52-12:19",
-			"Durmuhurtam": "08:50-09:36",
-			"Varjam": "22:47-24:31"
-		},
-		{
-			"Thithi": "Tritiya 13:32",
-			"Nakshatram": "Revati 11:48",
-			"Rahukalam": "09:24-10:51",
-			"Durmuhurtam": "06:29-08:02",
-			"Varjam": "None"
-		},
-		{
-			"Thithi": "Chaturthi 15:36",
-			"Nakshatram": "Ashwini 14:27",
-			"Rahukalam": "17:41-19:09",
-			"Durmuhurtam": "17:35-18:22",
-			"Varjam": "10:10-11:53"
-		},
-		{
-			"Thithi": "Panchami 16:13",
-			"Nakshatram": "Bharani 15:40",
-			"Rahukalam": "08:54-10:22",
-			"Durmuhurtam": "13:41-14:28",
-			"Varjam": "28:01-29:40"
-		},
-		{
-			"Thithi": "Shashti 16:19",
-			"Nakshatram": "Krittika 16:23",
-			"Rahukalam": "16:14-17:43",
-			"Durmuhurtam": "09:46-10:33",
-			"Varjam": "None"
-		},
-		{
-			"Thithi": "Saptami 15:53",
-			"Nakshatram": "Rohini 16:35",
-			"Rahukalam": "13:17-14:46",
-			"Durmuhurtam": "12:54-13:41",
-			"Varjam": "08:31-10:07"
-		},
-		{
-			"Thithi": "Ashtami 14:51",
-			"Nakshatram": "Mrigashira 16:12",
-			"Rahukalam": "14:46-16:15",
-			"Durmuhurtam": "11:19-12:06 16:03-16:51",
+			"Thithi": "Dvadashi 12:15",
+			"Nakshatram": "Jyeshtha 10:13",
+			"Rahukalam": "14:49-16:04",
+			"Durmuhurtam": "22:55-23:51",
 			"Varjam": ""
 		},
 		{
-			"Thithi": "Navami 13:14",
-			"Nakshatram": "Aardra 15:14",
+			"Thithi": "Trayodashi 12:18",
+			"Nakshatram": "Mula 10:50",
+			"Rahukalam": "12:19-13:34",
+			"Durmuhurtam": "11:59-12:39",
+			"Varjam": "09:11-10:50"
+		},
+		{
+			"Thithi": "Chaturdashi 12:47",
+			"Nakshatram": "P.shadha 11:50",
+			"Rahukalam": "13:35-14:50",
+			"Durmuhurtam": "10:39-11:19",
+			"Varjam": "20:19-22:01"
+		},
+		{
+			"Thithi": "Amavasya 13:41",
+			"Nakshatram": "U.shadha 13:16",
+			"Rahukalam": "11:04-12:20",
+			"Durmuhurtam": "09:19-09:59",
+			"Varjam": "17:34-19:17 "
+		},
+		{
+			"Thithi": "Maagha Shukla, Prathama 05:01",
+			"Nakshatram": "Shravana 15:05",
+			"Rahukalam": "11:04-12:21",
+			"Durmuhurtam": "09:16-09:57, 12:42-13:23",
+			"Varjam": "19:28-21:12"
+		},
+		{
+			"Thithi": "26 Dvitiiya 16:45",
+			"Nakshatram": "Dhanishta 17:19",
+			"Rahukalam": "16:08-17:24",
+			"Durmuhurtam": "16:03-16:43",
+			"Varjam": "25:17-27:03"
+		},
+		{
+			"Thithi": "Tritiiya 18:52",
+			"Nakshatram": "Shatabhisha 19:53",
+			"Rahukalam": "08:32-09:48",
+			"Durmuhurtam": "12:41-13:21",
+			"Varjam": "27:02-28:50"
+		},
+		{
+			"Thithi": "Chaturthi 21:16",
+			"Nakshatram": "Purvabhadra 22:43",
+			"Rahukalam": "14:53-16:10",
+			"Durmuhurtam": "09:18-09:58, 22:58-23:53",
+			"Varjam": ""
+		},
+		{
+			"Thithi": "Panchami 23:49",
+			"Nakshatram": "Uttarahadra 25:42",
+			"Rahukalam": "12:21-13:37",
+			"Durmuhurtam": "12:01-12:41",
+			"Varjam": "09:31-11:19"
+		},
+		{
+			"Thithi": "Shashthi 26:22",
+			"Nakshatram": "Revati 28:40",
+			"Rahukalam": "13:38-14:55 ",
+			"Durmuhurtam": "10:39-11:20",
+			"Varjam": "15:11-16:59"
+		},
+		{
+			"Thithi": "Saptami 28:41",
+			"Nakshatram": "Ashwini full night",
+			"Rahukalam": "11:04-12:21",
+			"Durmuhurtam": "09:16-09:57",
+			"Varjam": "26:56-28:43"
+		}
+	],
+	"panchangam_feb": [{
+			"Thithi": "Ashtami 30:33",
+			"Nakshatram": "Ashwini 07:23",
+			"Rahukalam": "09:47-11:04",
+			"Durmuhurtam": "07:12-08:35",
+			"Varjam": "17:54-19:40"
+		},
+		{
+			"Thithi": "Navami full night",
+			"Nakshatram": "Bharani 09:41",
+			"Rahukalam": "16:14-17:32",
+			"Durmuhurtam": "16:09-16:50",
+			"Varjam": "22:32-24:14"
+		},
+		{
+			"Thithi": "Navami 07:49",
+			"Nakshatram": "Krittika 11:22",
+			"Rahukalam": "08:28-09:46",
+			"Durmuhurtam": "12:42-13:24",
+			"Varjam": "28:00-29:40"
+		},
+		{
+			"Thithi": "Dashami 08:19",
+			"Nakshatram": "Rohini 12:19",
+			"Rahukalam": "14:58-16:16",
+			"Durmuhurtam": "09:15-09:56",
+			"Varjam": "17:57-19:34"
+		},
+		{
+			"Thithi": "Ekadashi 08:01, Dvadashi 30:53",
+			"Nakshatram": "Mrigashirsha 12:28",
+			"Rahukalam": "12:22-13:40",
+			"Durmuhurtam": "12:01-12:43",
+			"Varjam": "20:39-22:13"
+		},
+		{
+			"Thithi": "Trayodashi 29:01",
+			"Nakshatram": "Aardra 11:51",
+			"Rahukalam": "13:40-14:59",
+			"Durmuhurtam": "10:37-11:19",
+			"Varjam": "23:11-24:41"
+		},
+		{
+			"Thithi": "Chaturdashi 26:32",
+			"Nakshatram": "Punarvasu 10:30",
+			"Rahukalam": "11:03-12:22",
+			"Durmuhurtam": "09:13-09:55",
+			"Varjam": "17:52-19:20"
+		},
+		{
+			"Thithi": "Purnima 23:33",
+			"Nakshatram": "Pushya 08:35, Aslesha 30:13",
+			"Rahukalam": "09:44-11:03",
+			"Durmuhurtam": "07:06-08:30",
+			"Varjam": "20:07-21:34"
+		},
+		{
+			"Thithi": "Prathama 20:15",
+			"Nakshatram": "Magha 27:35",
+			"Rahukalam": "16:20-17:39",
+			"Durmuhurtam": "16:15-16:57",
+			"Varjam": "16:54-18:20"
+		},
+		{
+			"Thithi": "Dvitiiya 16:48",
+			"Nakshatram": "Purvapalguni 24:53",
+			"Rahukalam": "08:23-09:43",
+			"Durmuhurtam": "12:43-13:26",
+			"Varjam": "10:41-12:06"
+		},
+		{
+			"Thithi": "Tritiiya 13:23",
+			"Nakshatram": "Uttara  22:16",
+			"Rahukalam": "15:02-16:22",
+			"Durmuhurtam": "09:10-09:53",
+			"Varjam": "07:18-08:43"
+		},
+		{
+			"Thithi": "Chaturthi 10:09",
+			"Nakshatram": "Hasta 19:55",
+			"Rahukalam": "12:22-13:42",
+			"Durmuhurtam": "12:01-12:43",
+			"Varjam": "27:16-28:44"
+		},
+		{
+			"Thithi": "Panchami 07:16, Shashthi 28:51",
+			"Nakshatram": "Chitra 17:57",
+			"Rahukalam": "13:42-15:03",
+			"Durmuhurtam": "10:35-11:18, 14:52-15:35",
+			"Varjam": "23:13-24:43"
+		},
+		{
+			"Thithi": "Saptami 26:59",
+			"Nakshatram": "Swathi 16:31",
+			"Rahukalam": "11:01-12:22",
+			"Durmuhurtam": "09:08-09:51",
+			"Varjam": "21:55-23:27"
+		},
+		{
+			"Thithi": "Ashtami 25:44",
+			"Nakshatram": "Vishaakha 15:39",
+			"Rahukalam": "09:40-11:01",
+			"Durmuhurtam": "06:58-08:25",
+			"Varjam": "19:36-21:11"
+		},
+		{
+			"Thithi": "Navami 25:05",
+			"Nakshatram": "Anuraadha 15:23",
+			"Rahukalam": "16:26-17:47",
+			"Durmuhurtam": "16:20-17:03",
+			"Varjam": "21:04-22:41"
+		},
+		{
+			"Thithi": "Dashami 25:03",
+			"Nakshatram": "Jyeshtha 15:44",
+			"Rahukalam": "08:17-09:39",
+			"Durmuhurtam": "12:44-13:27, 14:54-15:37",
+			"Varjam": ""
+		},
+		{
+			"Thithi": "Ekadashi 25:32",
+			"Nakshatram": "Mula 16:36",
+			"Rahukalam": "15:05-16:27",
+			"Durmuhurtam": "09:06-09:49",
+			"Varjam": "14:57-16:36"
+		},
+		{
+			"Thithi": "Dvadashi 26.30",
+			"Nakshatram": "Purvashadha 17:58",
+			"Rahukalam": "12:22-13:44",
+			"Durmuhurtam": "12:00-12:44",
+			"Varjam": "26:33-28:16"
+		},
+		{
+			"Thithi": "Trayodashi 27:51",
+			"Nakshatram": "Uttarashadha 19:43",
+			"Rahukalam": "13:44-15:06",
+			"Durmuhurtam": "10:32-11:16",
+			"Varjam": "24:04-25:49"
+		},
+		{
+			"Thithi": "Chaturdashi 29:33",
+			"Nakshatram": "Shravana 21:49",
+			"Rahukalam": "10:59-12:22",
+			"Durmuhurtam": "09:03-09:47",
+			"Varjam": "26:13-27:59"
+		},
+		{
+			"Thithi": "Amavasya full night",
+			"Nakshatram": "Dhanishta 24:13",
+			"Rahukalam": "09:36-10:58",
+			"Durmuhurtam": "06:50-08:18",
+			"Varjam": ""
+		},
+		{
+			"Thithi": "Amavasya 07:31",
+			"Nakshatram": "Shatabhisha 26:51",
+			"Rahukalam": "16:31-17:54",
+			"Durmuhurtam": "16:25-17:10",
+			"Varjam": "08:12-09:59"
+		},
+		{
+			"Thithi": "Phalguna Shukla, Prathama 09:45",
+			"Nakshatram": "Purvabhadra 29:40",
+			"Rahukalam": "08:11-09:34",
+			"Durmuhurtam": "12:43-13:28,  14:57-15:42",
+			"Varjam": "10:00-11:47"
+		},
+		{
+			"Thithi": "Dvitiiya 12:10",
+			"Nakshatram": "Uttarabhadra full night",
+			"Rahukalam": "15:09-16:32",
+			"Durmuhurtam": "09:00-09:45",
+			"Varjam": "16:27-18:15"
+		},
+		{
+			"Thithi": "26 Tritiiya 14:42",
+			"Nakshatram": "Uttarabhadra 08:38",
+			"Rahukalam": "12:21-13:45",
+			"Durmuhurtam": "11:58-12:43",
+			"Varjam": "22:08-23:56"
+		},
+		{
+			"Thithi": "Chaturthi 17:14",
+			"Nakshatram": "Revati 11.38",
+			"Rahukalam": "13:45-15:09",
+			"Durmuhurtam": "10:28-11:13, 14:58-15:43",
+			"Varjam": ""
+		},
+		{
+			"Thithi": "Panchami 19:39",
+			"Nakshatram": "Ashwini 14:33",
+			"Rahukalam": "10:56-12:20",
+			"Durmuhurtam": "08:57-09:42",
+			"Varjam": "10:04-11:51"
+		},
+		{
+			"Thithi": "Shashthi 21:46",
+			"Nakshatram": "Bharani 17:12",
+			"Rahukalam": "09:30-10:55",
+			"Durmuhurtam": "06:40-08:11",
+			"Varjam": "30:18-32:03"
+		}
+	],
+
+	"panchangam_mar": [{
+			"Thithi": "Saptami 23:23",
+			"Nakshatram": "Krittika 19:25",
+			"Rahukalam": "16:36-18:01",
+			"Durmuhurtam": "16:30-17:16",
+			"Varjam": ""
+		},
+		{
+			"Thithi": "Ashtami 24:20",
+			"Nakshatram": "Rohini 21:01",
+			"Rahukalam": "08:03-09:29",
+			"Durmuhurtam": "12:43-13:28",
+			"Varjam": "12:29-14:12"
+		},
+		{
+			"Thithi": "Navami 24:30",
+			"Nakshatram": "Mrigashirsha 21:53",
+			"Rahukalam": "15:11-16:37",
+			"Durmuhurtam": "08:54-09:39",
+			"Varjam": "30:18-31:54"
+		},
+		{
+			"Thithi": "Dashami 23:49",
+			"Nakshatram": "Aardra 21:56",
+			"Rahukalam": "12:19-13:46",
+			"Durmuhurtam": "11:56-12:42",
+			"Varjam": ""
+		},
+		{
+			"Thithi": "Ekadashi 22:17",
+			"Nakshatram": "Punarvasu 21:08",
+			"Rahukalam": "13:46-15:12",
+			"Durmuhurtam": "10:24-11:10",
+			"Varjam": "09:32-11:05"
+		},
+		{
+			"Thithi": "Dvadashi 19:59",
+			"Nakshatram": "Pushya 19:35",
+			"Rahukalam": "10:52-12:19",
+			"Durmuhurtam": "08:51-09:37, 12:42-13:28",
+			"Varjam": ""
+		},
+		{
+			"Thithi": "Trayodashi 17:01",
+			"Nakshatram": "Aslesha 17:22",
+			"Rahukalam": "09:25-10:52",
+			"Durmuhurtam": "06:31-08:03",
+			"Varjam": "07:12-08:39"
+		},
+		{
+			"Thithi": "Chaturdashi 14:34",
+			"Nakshatram": "Magha 15:40",
+			"Rahukalam": "17:41-19:08",
+			"Durmuhurtam": "17:35-18:21",
+			"Varjam": "22:39-24:03"
+		},
+		{
+			"Thithi": "Purnima 10:47",
+			"Nakshatram": "Purvaphalguni 12:39",
+			"Rahukalam": "08:55-10:23",
+			"Durmuhurtam": "13:42-14:28",
+			"Varjam": "18:54-20:18"
+		},
+		{
+			"Thithi": "Dvitiiya 27:03",
+			"Nakshatram": "Uttara  09:31",
+			"Rahukalam": "16:14-17:42",
+			"Durmuhurtam": "09:47-10:43",
+			"Varjam": "16:52-18:16"
+		},
+		{
+			"Thithi": "Tritiiya 23:29",
+			"Nakshatram": "Chitra 27:45",
+			"Rahukalam": "13:18-14:46",
+			"Durmuhurtam": "12:54-13:41",
+			"Varjam": "13:35-15:00"
+		},
+		{
+			"Thithi": "Chaturthi 20:20",
+			"Nakshatram": "Swathi 25:29",
+			"Rahukalam": "14:46-16:15",
+			"Durmuhurtam": "11:19-12:07",
+			"Varjam": "08:50-10:17"
+		},
+		{
+			"Thithi": "Panchami 17:47",
+			"Nakshatram": "Vishaaka 23:50",
 			"Rahukalam": "11:48-13:17",
-			"Durmuhurtam": "09:43-10:30",
-			"Varjam": "26:28-27:58"
+			"Durmuhurtam": "09:44-10:31",
+			"Varjam": "27:40-29:13"
 		},
 		{
-			"Thithi": "Dashami 11:02",
-			"Nakshatram": "Punarvasu 13:43",
-			"Rahukalam": "10:18-11:47",
-			"Durmuhurtam": "07:18-08:54",
-			"Varjam": "21:02-22:30"
+			"Thithi": "Shashthi 15:55",
+			"Nakshatram": "Anuraadha 22:53",
+			"Rahukalam": "10:19-11:48",
+			"Durmuhurtam": "07:20-08:55",
+			"Varjam": "28:27-30:02"
 		},
 		{
-			"Thithi": "Ekadashi 08:20, Dwadashi 29:13",
-			"Nakshatram": "Pushya 11:41",
-			"Rahukalam": "17:46-19:16",
-			"Durmuhurtam": "17:40-18:28",
-			"Varjam": "23:12-24:38"
+			"Thithi": "Saptami 14:49",
+			"Nakshatram": "Jyeshtha 22:42",
+			"Rahukalam": "17:45-19:14",
+			"Durmuhurtam": "17:39-18:27",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Trayodashi 25:48",
-			"Nakshatram": "Ashlesha 09:16, Magha 30:35",
-			"Rahukalam": "08:46-10:16",
+			"Thithi": "Ashtami 14:29",
+			"Nakshatram": "Mula 23:16",
+			"Rahukalam": "08:47-10:17",
 			"Durmuhurtam": "13:40-14:28",
-			"Varjam": "19:55-21:20"
+			"Varjam": "21:38-23:16"
 		},
 		{
-			"Thithi": "Chaturdashi 22:14",
-			"Nakshatram": "Purvaphalguni 27:47",
-			"Rahukalam": "16:17:17:47",
-			"Durmuhurtam": "09:39-10:27",
-			"Varjam": "13:39-15:03"
+			"Thithi": "Navami 14:54",
+			"Nakshatram": "Purvashadha 24:31",
+			"Rahukalam": "16:16-17:46",
+			"Durmuhurtam": "09:40-10:28",
+			"Varjam": "09:22-11:03"
 		},
 		{
-			"Thithi": "Purnima 18:42",
-			"Nakshatram": "Uttara 25:04",
-			"Rahukalam": "13:15-14:46",
-			"Durmuhurtam": "12:51-13:40",
-			"Varjam": "10:10-11:35"
+			"Thithi": "Dashami 15:56",
+			"Nakshatram": "Uttarashadha 26:20",
+			"Rahukalam": "13:16-14:46",
+			"Durmuhurtam": "12:52-13:40",
+			"Varjam": "09:07-10:50"
 		},
 		{
-			"Thithi": "Prathama 15:22",
-			"Nakshatram": "Hasta 22:36",
+			"Thithi": "Ekadashi 17:29",
+			"Nakshatram": "Shravana 28:35",
 			"Rahukalam": "14:46-16:17",
-			"Durmuhurtam": "11:14-12:02",
-			"Varjam": "08:36-10:02"
+			"Durmuhurtam": "11:15-12:03, 16:05-16:53",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Dwitiya 12:25",
-			"Nakshatram": "Chitra 20:35",
-			"Rahukalam": "11:43-13:15",
-			"Durmuhurtam": "09:36-10:24",
-			"Varjam": "25:51-27:22"
+			"Thithi": "Dvadashi 19:26",
+			"Nakshatram": "Dhanishta 31:09",
+			"Rahukalam": "11:44-13:15",
+			"Durmuhurtam": "09:37-10:25",
+			"Varjam": "09:01-10:47"
 		},
 		{
-			"Thithi": "Tritiya 10:02",
-			"Nakshatram": "Swati 19:11",
-			"Rahukalam": "10:11-11:43",
-			"Durmuhurtam": "07:08-08:46",
-			"Varjam": "24:38-26:12"
+			"Thithi": "Trayodashi 21:38",
+			"Nakshatram": "Shatabhisha full night",
+			"Rahukalam": "10:12-11:44",
+			"Durmuhurtam": "07:10-08:47",
+			"Varjam": "15:12-16:59"
 		},
 		{
-			"Thithi": "Chaturthi 08:21",
-			"Nakshatram": "Vishakha 18:33",
-			"Rahukalam": "17:50-19:22",
-			"Durmuhurtam": "17:44-18:33",
-			"Varjam": "22:35-24:12"
+			"Thithi": "Chaturdashi 24:00",
+			"Nakshatram": "Shatabhisha 09:57",
+			"Rahukalam": "17:49-19:21",
+			"Durmuhurtam": "17:43-18:32",
+			"Varjam": "17:07-18:55"
 		},
 		{
-			"Thithi": "Panchami 07:30",
-			"Nakshatram": "Anuradha 18:45",
-			"Rahukalam": "08:37-10:09",
-			"Durmuhurtam": "13:38-14:28",
-			"Varjam": "24:36-26:16"
+			"Thithi": "Amavasya 26:28",
+			"Nakshatram": "Purvabhhadra 12:51",
+			"Rahukalam": "08:39-10:11",
+			"Durmuhurtam": "13:39-14:28",
+			"Varjam": "23:38-25:26"
 		},
 		{
-			"Thithi": "Shashti 07:31",
-			"Nakshatram": "Jyeshta 19:49",
-			"Rahukalam": "16:19-17:51",
-			"Durmuhurtam": "09:32-10:21",
-			"Varjam": "None"
+			"Thithi": "Chaitra Shukla, Prathama 28:57",
+			"Nakshatram": "Uttarabhadra 15:49",
+			"Rahukalam": "16:18-17:50",
+			"Durmuhurtam": "09:33-10:22, 24:03-24:50",
+			"Varjam": "29:18-31:05"
 		},
 		{
-			"Thithi": "Saptami 08:25",
-			"Nakshatram": "Mula 21:40",
-			"Rahukalam": "13:13-14:46",
+			"Thithi": "Dvitiiya full night",
+			"Nakshatram": "Revati 18:46",
+			"Rahukalam": "13:14-:14:46",
 			"Durmuhurtam": "12:49-13:38",
-			"Varjam": "19:57-21:40"
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Ashtami 10:04",
-			"Nakshatram": "Purvashada 24:11",
+			"Thithi": "26 Dvitiiya 07:23",
+			"Nakshatram": "Ashwini 21:39",
 			"Rahukalam": "14:46-16:19",
-			"Durmuhurtam": "11:09-11:58",
-			"Varjam": "08:16-10:02"
+			"Durmuhurtam": "11:10-11:59",
+			"Varjam": "17:10-18:58"
 		},
 		{
-			"Thithi": "Navami 12:18",
-			"Nakshatram": "Uttarashada 27:07",
-			"Rahukalam": "11:39-13:13",
-			"Durmuhurtam": "09:28-10:18",
-			"Varjam": "09:10-10:57"
+			"Thithi": "Tritiiya 09:42",
+			"Nakshatram": "Bharani 24:22",
+			"Rahukalam": "11:40-13:13",
+			"Durmuhurtam": "09:30-10:19",
+			"Varjam": "08:20-10:07"
 		},
 		{
-			"Thithi": "Dashami 14:53",
-			"Nakshatram": "Shravana 30:16",
-			"Rahukalam": "10:05-11:39",
-			"Durmuhurtam": "06:57-08:37",
-			"Varjam": "07:39-09:28"
+			"Thithi": "Chaturthi 11:48",
+			"Nakshatram": "Krittika 26:47",
+			"Rahukalam": "10:06-11:39",
+			"Durmuhurtam": "06:59-08:39",
+			"Varjam": "13:35-15:20"
 		},
 		{
-			"Thithi": "Ekadashi 17:34",
-			"Nakshatram": "Dhanishta Full Night",
-			"Rahukalam": "17:54-19:28",
-			"Durmuhurtam": "17:48-18:38",
-			"Varjam": "10:48-12:36"
+			"Thithi": "Panchami 13:31",
+			"Nakshatram": "Rohini 28:48",
+			"Rahukalam": "17:53-19:27",
+			"Durmuhurtam": "17:47-18:37",
+			"Varjam": "20:08-21:52"
+		},
+		{
+			"Thithi": "Shashthi 14:45",
+			"Nakshatram": "Mrigashirsha 30:14",
+			"Rahukalam": "08:30-10:04",
+			"Durmuhurtam": "13:37-14:27",
+			"Varjam": "10:44-12:25"
+		},
+		{
+			"Thithi": "Saptami 15:20",
+			"Nakshatram": "Aardra full night",
+			"Rahukalam": "16:20-17:55",
+			"Durmuhurtam": "09:26-10:16",
+			"Varjam": "14:54-16:33"
 		}
 	],
 
 	"panchangam_april": [{
-			"Thithi": "Dwadashi 20:08",
-			"Nakshatram": "Dhanishta 09:24",
-			"Rahukalam": "08:29-10:03",
-			"Durmuhurtam": "13:37-14:27",
-			"Varjam": "17:29-19:16"
-		},
-		{
-			"Thithi": "Trayodashi 22:26",
-			"Nakshatram": "Shatabhisha 12:19",
-			"Rahukalam": "16:21-17:55",
-			"Durmuhurtam": "09:24-10:15",
-			"Varjam": "19:25-21:11"
-		},
-		{
-			"Thithi": "Chaturdashi 24:21",
-			"Nakshatram": "Purvabhadra 14:54",
-			"Rahukalam": "13:11-14:46",
+			"Thithi": "Ashtami 15:10",
+			"Nakshatram": "Aardra 06:59",
+			"Rahukalam": "13:12-14:46",
 			"Durmuhurtam": "12:46-13:37",
-			"Varjam": "25:23-27:08"
+			"Varjam": "18:59-20:35"
 		},
 		{
-			"Thithi": "Amavasya 25:50",
-			"Nakshatram": "Uttarabhadra 17:06",
+			"Thithi": "Navami 14:13",
+			"Nakshatram": "Punarvasu 06:58, Pushya 30:10",
 			"Rahukalam": "14:46-16:21",
-			"Durmuhurtam": "11:04-11:55",
-			"Varjam": "29:59-31:42"
+			"Durmuhurtam": "11:05-11:55, 16:08-16:59",
+			"Varjam": "14:42-16:15"
 		},
 		{
-			"Thithi": "Chaitra Shukla, Prathama 26:53",
-			"Nakshatram": "Revathi 18:52",
-			"Rahukalam": "11:35-13:11",
-			"Durmuhurtam": "09:21-10:12, 13:36-14:27",
-			"Varjam": ""
+			"Thithi": "Dashami 12:28",
+			"Nakshatram": "Aslesha 28:38",
+			"Rahukalam": "11:36-13:11",
+			"Durmuhurtam": "09:23-10:23",
+			"Varjam": "18:09-19:39"
 		},
 		{
-			"Thithi": "Dwitiya 27:31",
-			"Nakshatram": "Ashwini 20:14",
-			"Rahukalam": "09:59-11:35",
-			"Durmuhurtam": "06:47-08:29",
-			"Varjam": "16:00-17:42"
+			"Thithi": "Ekadashi 10:00",
+			"Nakshatram": "Magha 26:27",
+			"Rahukalam": "10:00-11:35",
+			"Durmuhurtam": "06:49-08:31",
+			"Varjam": "15:33-17:00"
 		},
 		{
-			"Thithi": "Tritiya 27:45",
-			"Nakshatram": "Bharani 21:13",
-			"Rahukalam": "17:58-19:34",
-			"Durmuhurtam": "17:52-18:43",
-			"Varjam": "None"
+			"Thithi": "Dvadashi 06:55, Trayodashi 27:22",
+			"Nakshatram": "Purvaphalguni 23:46",
+			"Rahukalam": "17:58-19:33",
+			"Durmuhurtam": "17:51-18:42",
+			"Varjam": "09:33-10:59"
 		},
 		{
-			"Thithi": "Chaturthi 27:37",
-			"Nakshatram": "Krittika 21:49",
-			"Rahukalam": "08:21-09:57",
+			"Thithi": "Chaturdashi 23:31",
+			"Nakshatram": "Uttara 20:45",
+			"Rahukalam": "08:22-09:58",
 			"Durmuhurtam": "13:36-14:27",
-			"Varjam": "09:31-11:09"
+			"Varjam": "28:03-29:27"
 		},
 		{
-			"Thithi": "Panchami 27:06",
-			"Nakshatram": "Rohini 22:03",
-			"Rahukalam": "16:23-18:00",
-			"Durmuhurtam": "09:17-10:09",
-			"Varjam": "13:59-15:35"
+			"Thithi": "Purnima 19:34",
+			"Nakshatram": "Hasta 17:37",
+			"Rahukalam": "06:23-17:59",
+			"Durmuhurtam": "09:19-10:10",
+			"Varjam": "24:35-25:59"
 		},
 		{
-			"Thithi": "Shashti 26:11",
-			"Nakshatram": "Mrigashira 21:55",
-			"Rahukalam": "13:09-14:46",
-			"Durmuhurtam": "12:43-13:35",
-			"Varjam": "30:08-31:42"
+			"Thithi": "Prathama 15:43",
+			"Nakshatram": "Chitra 14:33",
+			"Rahukalam": "13:10-14:46",
+			"Durmuhurtam": "12:44-13:35",
+			"Varjam": "19:29-20:54"
 		},
 		{
-			"Thithi": "Saptami 24:53",
-			"Nakshatram": "Ardra 21:24",
-			"Rahukalam": "14:46-16:24",
-			"Durmuhurtam": "10:59-11:51 16:11-17:02",
-			"Varjam": ""
+			"Thithi": "Dvitiiya 12:08",
+			"Nakshatram": "Swathi 11:45",
+			"Rahukalam": "14:46-16:23",
+			"Durmuhurtam": "11:00-11:52",
+			"Varjam": "16:48-18:15"
 		},
 		{
-			"Thithi": "Ashtami 23:11",
-			"Nakshatram": "Punarvasu 20:28",
-			"Rahukalam": "11:31-13:09",
-			"Durmuhurtam": "09:15-10:07",
-			"Varjam": "08:56-10:28"
+			"Thithi": "Tritiiya 09:01, Chaturthi 30:31",
+			"Nakshatram": "Vishaakha 09:24",
+			"Rahukalam": "11:32-13:09",
+			"Durmuhurtam": "09:16-10:08, 13:35-14:27",
+			"Varjam": "13:07-14:36"
 		},
 		{
-			"Thithi": "Navami 21:05",
-			"Nakshatram": "Pushya 19:10",
-			"Rahukalam": "09:53-11:31",
-			"Durmuhurtam": "06:37-08:21",
-			"Varjam": "None"
+			"Thithi": "Panchami 28:45",
+			"Nakshatram": "Anuraadha 07:41",
+			"Rahukalam": "09:54-11:31",
+			"Durmuhurtam": "06:39-08:23",
+			"Varjam": "13:04-14:36"
 		},
 		{
-			"Thithi": "Dashami 18:38",
-			"Nakshatram": "Ashlesha 17:29",
-			"Rahukalam": "18:03-19:41",
-			"Durmuhurtam": "17:56-18:48",
-			"Varjam": "07:04-08:33"
+			"Thithi": "Shashthi 27:48",
+			"Nakshatram": "Jyeshtha 06:42, Mula 30:32",
+			"Rahukalam": "18:02-19:40",
+			"Durmuhurtam": "17:55-18:47",
+			"Varjam": "28:57-30:32"
 		},
 		{
-			"Thithi": "Ekadashi 15:53",
-			"Nakshatram": "Magha 15:31",
-			"Rahukalam": "08:13-09:51",
+			"Thithi": "Saptami 27:41",
+			"Nakshatram": "Purvashadha full night ",
+			"Rahukalam": "08:14-09:52",
 			"Durmuhurtam": "13:34-14:27",
-			"Varjam": "22:47-24:15"
+			"Varjam": "16:24-18:02"
 		},
 		{
-			"Thithi": "Dwadashi 12:56",
-			"Nakshatram": "Purvaphalguni 13:20",
-			"Rahukalam": "16:25-18:04",
-			"Durmuhurtam": "09:11-10:04",
-			"Varjam": "19:52-21:19"
+			"Thithi": "Ashtami 28:21",
+			"Nakshatram": "Purvashadha 07:11",
+			"Rahukalam": "16:25-18:03",
+			"Durmuhurtam": "09:12-10:04",
+			"Varjam": "15:38-17:20"
 		},
 		{
-			"Thithi": "Trayodashi 09:54",
-			"Nakshatram": "Uttara 11:05",
+			"Thithi": "Navami 29:41",
+			"Nakshatram": "Uttarashadha  08:34",
 			"Rahukalam": "13:08-14:46",
 			"Durmuhurtam": "12:41-13:34",
-			"Varjam": "18:44-20:11"
+			"Varjam": "12:54-14:38"
 		},
 		{
-			"Thithi": "Chaturdashi 06:56, Purnima 28:12",
-			"Nakshatram": "Hasta 08:55",
-			"Rahukalam": "14:47-16:26",
-			"Durmuhurtam": "10:55-11:48",
-			"Varjam": "16:16-17:45"
+			"Thithi": "Dashami full night",
+			"Nakshatram": "Shravana 10:36",
+			"Rahukalam": "14:46-16:25",
+			"Durmuhurtam": "16:12-17:05",
+			"Varjam": "15:01-16:47"
 		},
 		{
-			"Thithi": "Prathama 25:50",
-			"Nakshatram": "Chitra 06:59, Swathi 29:28",
+			"Thithi": "Dashami 07:34",
+			"Nakshatram": "Dhanishta 13:06",
 			"Rahukalam": "11:28-13:07",
-			"Durmuhurtam": "09:08-10:01",
-			"Varjam": "12:14-13:44"
+			"Durmuhurtam": "09:09-10:02",
+			"Varjam": "21:08-22:56"
 		},
 		{
-			"Thithi": "Dwitiya 24:02",
-			"Nakshatram": "Vishakha 28:31",
-			"Rahukalam": "09:47-11:27",
-			"Durmuhurtam": "06:28-08:14",
-			"Varjam": "10:51-12:23"
+			"Thithi": "Ekadashi 09:47",
+			"Nakshatram": "Shatabhisha 15:55",
+			"Rahukalam": "09:48-11:28",
+			"Durmuhurtam": "06:29-08:15",
+			"Varjam": "23:06-24:54"
 		},
 		{
-			"Thithi": "Tritiya 22:55",
-			"Nakshatram": "Anuradha 28:15",
-			"Rahukalam": "18:07-19:47",
-			"Durmuhurtam": "18:00-18:54",
-			"Varjam": "08:28-10:03"
+			"Thithi": "Dvadashi 12:13",
+			"Nakshatram": "Purvabhadra 18:53",
+			"Rahukalam": "18:06-19:46",
+			"Durmuhurtam": "18:00-18:53",
+			"Varjam": "29:41-31:29"
 		},
 		{
-			"Thithi": "Chaturthi 22:34",
-			"Nakshatram": "Jyeshta 28:46",
-			"Rahukalam": "08:05-09:46",
-			"Durmuhurtam": "13:33-14:27",
-			"Varjam": "09:58-11:36"
+			"Thithi": "Trayodashi 14:42",
+			"Nakshatram": "Uttarabhadra  21:52",
+			"Rahukalam": "08:07-09:47",
+			"Durmuhurtam": "13:33-14:27, 16:13-17:07",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Panchami 23:02",
-			"Nakshatram": "Mula 30:05",
-			"Rahukalam": "16:28-18:08",
-			"Durmuhurtam": "09:05-09:58",
-			"Varjam": "28:24-30:05"
+			"Thithi": "Chaturdashi 17:07",
+			"Nakshatram": "Revati 24:48",
+			"Rahukalam": "16:27-18:07",
+			"Durmuhurtam": "09:06-09:59",
+			"Varjam": "11:20-13:08"
 		},
 		{
-			"Thithi": "Shashti 24:16",
-			"Nakshatram": "Purvashada Full Night",
+			"Thithi": "Amavasya 19:25",
+			"Nakshatram": "Ashwini 27:35",
 			"Rahukalam": "13:06-14:47",
 			"Durmuhurtam": "12:39-13:33",
-			"Varjam": "16:30-18:14"
+			"Varjam": "23:07-24:54"
 		},
 		{
-			"Thithi": "Saptami 26:10",
-			"Nakshatram": "Purvashada 08:07",
+			"Thithi": "Vaishaka Shukla, Prathama 21:31",
+			"Nakshatram": "Bharani 30:09",
 			"Rahukalam": "14:47-16:28",
-			"Durmuhurtam": "10:51-11:45",
-			"Varjam": "16:59-18:46"
+			"Durmuhurtam": "10:52-11:45, 16:14-17:08",
+			"Varjam": "14:12-15:59"
 		},
 		{
-			"Thithi": "Ashtami 28:31",
-			"Nakshatram": "Uttarashada 10:44",
-			"Rahukalam": "11:24-13:06",
-			"Durmuhurtam": "09:02-09:56",
-			"Varjam": "15:14-17:02"
+			"Thithi": "Dvitiiya 23:22",
+			"Nakshatram": "Krittika full night",
+			"Rahukalam": "11:25-13:06",
+			"Durmuhurtam": "09:03-09:57",
+			"Varjam": "19:18-21:04"
 		},
 		{
-			"Thithi": "Navami Full Night",
-			"Nakshatram": "Shravana 13:42",
-			"Rahukalam": "09:42-11:24",
-			"Durmuhurtam": "06:19-08:07",
-			"Varjam": "18:13-20:02"
+			"Thithi": "Tritiiya 24:53",
+			"Nakshatram": "Krittika 08:28",
+			"Rahukalam": "09:43-11:24",
+			"Durmuhurtam": "06:20-08:08",
+			"Varjam": "25:46-27:30"
 		},
 		{
-			"Thithi": "Navami 07:04",
-			"Nakshatram": "Dhanishta 16:47",
-			"Rahukalam": "18:11-19:53",
-			"Durmuhurtam": "18:05-18:59",
-			"Varjam": "24:53-26:40"
+			"Thithi": "26 Chaturthi 26:00",
+			"Nakshatram": "Rohini 10:26",
+			"Rahukalam": "18:11-19:52",
+			"Durmuhurtam": "18:04-18:58",
+			"Varjam": "16:24-18:06"
 		},
 		{
-			"Thithi": "Dashami 09:34",
-			"Nakshatram": "Shatabhisha 19:45",
-			"Rahukalam": "07:59-09:41",
+			"Thithi": "Panchami 26:38",
+			"Nakshatram": "Mrigashirsha 11:59",
+			"Rahukalam": "08:00-09:42",
 			"Durmuhurtam": "13:33-14:27",
-			"Varjam": "26:51-28:37"
+			"Varjam": "20:45-22:26"
 		},
 		{
-			"Thithi": "Ekadashi 11:47",
-			"Nakshatram": "Purvabhadra 22:22",
-			"Rahukalam": "16:30-18:13",
-			"Durmuhurtam": "08:59-09:54",
-			"Varjam": "None"
+			"Thithi": "Shashthi 26:42",
+			"Nakshatram": "Aardra 13:03",
+			"Rahukalam": "16:30-18:12",
+			"Durmuhurtam": "09:00-09:55",
+			"Varjam": "25:17-26:55"
+		},
+		{
+			"Thithi": "Saptami 26:09",
+			"Nakshatram": "Punarvasu 13:31",
+			"Rahukalam": "13:05-14:48",
+			"Durmuhurtam": "12:38-13:33",
+			"Varjam": "21:28-23:04"
+		},
+		{
+			"Thithi": "Ashtami 24:57",
+			"Nakshatram": "Pushya 13:23",
+			"Rahukalam": "14:48-16:30",
+			"Durmuhurtam": "10:48-11:43",
+			"Varjam": "25:45-27:18"
 		}
 	],
 
 	"panchangam_may": [{
-			"Thithi": "Dwadashi 13:05",
-			"Nakshatram": "Uttarabhadra 24:32",
-			"Rahukalam": "13:05-14:48",
-			"Durmuhurtam": "12:38-13:32",
-			"Varjam": "08:50-10:34"
-		},
-		{
-			"Thithi": "Trayodashi 14:51",
-			"Nakshatram": "Revathi 26:10",
-			"Rahukalam": "14:48-16:31",
-			"Durmuhurtam": "10:48-11:43",
-			"Varjam": "13:21-15:03"
-		},
-		{
-			"Thithi": "Chaturdashi 15:33",
-			"Nakshatram": "Ashwini 27:17",
+			"Thithi": "Navami 23:06",
+			"Nakshatram": "Aslesha 12:35",
 			"Rahukalam": "11:22-13:05",
-			"Durmuhurtam": "08:57-09:52",
-			"Varjam": "23:06-24:46"
+			"Durmuhurtam": "08:58-09:53",
+			"Varjam": "23:52-25:23"
 		},
 		{
-			"Thithi": "Amavasya 15:45",
-			"Nakshatram": "Bharani 27:54",
-			"Rahukalam": "09:38-11:21",
-			"Durmuhurtam": "06:11-08:01",
-			"Varjam": "13:08-14:46"
+			"Thithi": "Dashami 20:39",
+			"Nakshatram": "Magha 11:10",
+			"Rahukalam": "09:38-11:22",
+			"Durmuhurtam": "06:12-08:02",
+			"Varjam": "18:31-19:59"
 		},
 		{
-			"Thithi": "Vaishakha Shukla, Prathipath 15:28",
-			"Nakshatram": "Krittika 28:06",
-			"Rahukalam": "18:16-20:00",
-			"Durmuhurtam": "18:09-19:04",
-			"Varjam": "16:00-17:37"
+			"Thithi": "Ekadashi 17:43",
+			"Nakshatram": "Purvaphalguni 09:13",
+			"Rahukalam": "18:15-19:59",
+			"Durmuhurtam": "18:08-19:03",
+			"Varjam": "15:42-17:08"
 		},
 		{
-			"Thithi": "Dwitiya 14:48",
-			"Nakshatram": "Rohini 27:57",
-			"Rahukalam": "07:53-09:37",
-			"Durmuhurtam": "13:32-14:28",
-			"Varjam": "20:00-21:35"
+			"Thithi": "Dvadashi 14:24",
+			"Nakshatram": "Uttara 06:49, Hasta 28:09",
+			"Rahukalam": "07:54-09:37",
+			"Durmuhurtam": "13:32-14:28, 16:18-17:14",
+			"Varjam": "14:17-15:42"
 		},
 		{
-			"Thithi": "Tritiya 13:47",
-			"Nakshatram": "Mrigashira 27:29",
-			"Rahukalam": "16:33-18:17",
-			"Durmuhurtam": "08:54-09:50",
-			"Varjam": "09:27-11:01"
+			"Thithi": "Trayodashi 10:51",
+			"Nakshatram": "Chitra 25:21",
+			"Rahukalam": "16:32-18:16",
+			"Durmuhurtam": "08:55-09:51",
+			"Varjam": "11:13-12:38"
 		},
 		{
-			"Thithi": "Chaturthi 12:29",
-			"Nakshatram": "Ardra 26:47",
+			"Thithi": "Chaturdashi 07:15, Purnima 27:45",
+			"Nakshatram": "Swathi 22:37",
 			"Rahukalam": "13:04-14:49",
 			"Durmuhurtam": "12:37-13:32",
-			"Varjam": "11:39-13:12"
+			"Varjam": "06:19-07:44"
 		},
 		{
-			"Thithi": "Panchami 10:56",
-			"Nakshatram": "Punarvasu 25:51",
-			"Rahukalam": "14:49-16:34",
+			"Thithi": "Prathama 24:31",
+			"Nakshatram": "Vishaakha 20:08",
+			"Rahukalam": "14:49-16:33",
 			"Durmuhurtam": "10:45-11:41",
-			"Varjam": "14:19-15:51"
+			"Varjam": "23:47-25:15"
 		},
 		{
-			"Thithi": "Shashti 09:11",
-			"Nakshatram": "Pushya 24:43",
-			"Rahukalam": "11:19-13:04",
-			"Durmuhurtam": "08:52-09:48",
-			"Varjam": "09:28-11:00"
+			"Thithi": "Dvitiiya 21:45",
+			"Nakshatram": "Anuraadha 18:03",
+			"Rahukalam": "11:20-13:04",
+			"Durmuhurtam": "08:53-09:49",
+			"Varjam": "23:18-24:48"
 		},
 		{
-			"Thithi": "Saptami 07:14, Ashtami 29:07",
-			"Nakshatram": "Ashlesha 23:25",
-			"Rahukalam": "09:34-11:19",
-			"Durmuhurtam": "06:04-07:56",
-			"Varjam": "12:49-14:20"
-		},
-		{
-			"Thithi": "Navami 26:51",
-			"Nakshatram": "Magha 21:57",
-			"Rahukalam": "18:20-20:06",
-			"Durmuhurtam": "18:13-19:10",
-			"Varjam": "10:41-12:11"
-		},
-		{
-			"Thithi": "Dashami 24:29",
-			"Nakshatram": "Purva 20:23",
-			"Rahukalam": "07:47-09:33",
-			"Durmuhurtam": "13:32-14:29",
-			"Varjam": "27:06-28:35"
-		},
-		{
-			"Thithi": "Ekadashi 22:05",
-			"Nakshatram": "Uttara 18:46",
-			"Rahukalam": "16:36-18:22",
-			"Durmuhurtam": "08:50-09:47",
-			"Varjam": "26:37-28:07"
-		},
-		{
-			"Thithi": "Dwadashi 19:45",
-			"Nakshatram": "Hasta 17:12",
-			"Rahukalam": "13:04-14:50",
-			"Durmuhurtam": "12:36-13:33",
-			"Varjam": "24:43-26:13"
-		},
-		{
-			"Thithi": "Trayodashi 17:34",
-			"Nakshatram": "Chitra 15:46",
-			"Rahukalam": "14:51-16:37",
-			"Durmuhurtam": "10:43-11:39",
-			"Varjam": "21:06-22:37"
-		},
-		{
-			"Thithi": "Chaturdashi 15:40",
-			"Nakshatram": "Swathi 14:37",
-			"Rahukalam": "11:18-13:04",
-			"Durmuhurtam": "08:49-09:46",
-			"Varjam": "20:02-21:35"
-		},
-		{
-			"Thithi": "Purnima 14:11",
-			"Nakshatram": "Vishakha 13:52",
-			"Rahukalam": "09:31-11:18",
-			"Durmuhurtam": "05:58-07:51",
-			"Varjam": "17:49-19:24"
-		},
-		{
-			"Thithi": "Prathama 13:12",
-			"Nakshatram": "Anuradha 13:37",
-			"Rahukalam": "18:25-20:12",
-			"Durmuhurtam": "18:18-19:15",
-			"Varjam": "19:18-20:56"
-		},
-		{
-			"Thithi": "Dwitiya 12:51",
-			"Nakshatram": "Jyeshta 13:59",
-			"Rahukalam": "07:43-09:30",
-			"Durmuhurtam": "13:33-14:30, 16:24-17:21",
+			"Thithi": "Tritiiya  19:34",
+			"Nakshatram": "Jyeshtha 16:32",
+			"Rahukalam": "09:35-11:19",
+			"Durmuhurtam": "06:05-07:57",
 			"Varjam": ""
 		},
 		{
-			"Thithi": "Tritiya 13:10",
-			"Nakshatram": "Mula 15:01",
-			"Rahukalam": "16:39-18:26",
-			"Durmuhurtam": "08:47-09:44",
-			"Varjam": "13:21-15:01"
+			"Thithi": "Chaturthi 18:05",
+			"Nakshatram": "Mula 15:43",
+			"Rahukalam": "18:20-20:05",
+			"Durmuhurtam": "18:13-19:09",
+			"Varjam": "14:10-15:43"
 		},
 		{
-			"Thithi": "Chaturthi 14:10",
-			"Nakshatram": "Purvashada 16:43",
-			"Rahukalam": "13:05-14:52",
+			"Thithi": "Panchami 17:23",
+			"Nakshatram": "Purvashadha 15:40",
+			"Rahukalam": "07:48-09:34",
+			"Durmuhurtam": "13:32-14:29",
+			"Varjam": "23:54-25:33"
+		},
+		{
+			"Thithi": "Shashthi 17:29",
+			"Nakshatram": "Uttarashadha 16:24",
+			"Rahukalam": "16:35-18:21",
+			"Durmuhurtam": "08:51-09:47",
+			"Varjam": "20:39-22:21"
+		},
+		{
+			"Thithi": "Saptami 18:21",
+			"Nakshatram": "Shravana 17:53",
+			"Rahukalam": "13:04-14:50",
+			"Durmuhurtam": "12:36-13:32",
+			"Varjam": "22:14-23:58"
+		},
+		{
+			"Thithi": "Ashtami 19:52",
+			"Nakshatram": "Dhanishta 20:00",
+			"Rahukalam": "14:50-16:36",
+			"Durmuhurtam": "10:43-11:39",
+			"Varjam": "27:58-29:45"
+		},
+		{
+			"Thithi": "Navami 21:53",
+			"Nakshatram": "Shatabhisha 22:35",
+			"Rahukalam": "11:18-13:04",
+			"Durmuhurtam": "08:49-09:46",
+			"Varjam": "29:45-31:33"
+		},
+		{
+			"Thithi": "Dashami 24:12",
+			"Nakshatram": "Purvabhadra  25:28",
+			"Rahukalam": "09:31-11:18",
+			"Durmuhurtam": "05:59-07:52",
+			"Varjam": ""
+		},
+		{
+			"Thithi": "Ekadashi 26:38",
+			"Nakshatram": "Uttarabhadra 28:28",
+			"Rahukalam": "18:24-20:11",
+			"Durmuhurtam": "18:17-19:14",
+			"Varjam": "12:16-14:04"
+		},
+		{
+			"Thithi": "Dvadashi 29:01",
+			"Nakshatram": "Revati full night",
+			"Rahukalam": "07:44-09:31",
+			"Durmuhurtam": "13:33-14:30",
+			"Varjam": "17:56-19:43"
+		},
+		{
+			"Thithi": "Trayodashi full night",
+			"Nakshatram": "Revati 07:23",
+			"Rahukalam": "16:38-18:25",
+			"Durmuhurtam": "08:48-09:45",
+			"Varjam": "29:40-31:27"
+		},
+		{
+			"Thithi": "Trayodashi 07:12",
+			"Nakshatram": "Ashwini 10:07",
+			"Rahukalam": "13:04-14:52",
 			"Durmuhurtam": "12:36-13:33",
-			"Varjam": "25:29-27:14"
+			"Varjam": "20:42-22:27"
 		},
 		{
-			"Thithi": "Panchami 15:48",
-			"Nakshatram": "Uttarashada 19:00",
-			"Rahukalam": "14:52-16:40",
+			"Thithi": "Chaturdashi 09:06",
+			"Nakshatram": "Bharani 12:34",
+			"Rahukalam": "14:52-16:39",
 			"Durmuhurtam": "10:41-11:39",
-			"Varjam": "23:28-25:15"
+			"Varjam": "25:36-27:21"
 		},
 		{
-			"Thithi": "Shashti 17:55",
-			"Nakshatram": "Shravana 21:45",
+			"Thithi": "Amavasya 10:38",
+			"Nakshatram": "Krittika 14:39",
 			"Rahukalam": "11:17-13:05",
-			"Durmuhurtam": "08:46-09:44",
-			"Varjam": "26:14-28:02"
+			"Durmuhurtam": "08:46-09:44, 13:33-14:31",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Saptami 20:19",
-			"Nakshatram": "Dhanishta 24:44",
+			"Thithi": "Jyeshtha Shukla, Prathama 11:47",
+			"Nakshatram": "Rohini 16:22",
 			"Rahukalam": "09:29-11:17",
-			"Durmuhurtam": "05:53-07:48",
-			"Varjam": "None"
+			"Durmuhurtam": "05:54-07:49",
+			"Varjam": "07:47-09:30"
 		},
 		{
-			"Thithi": "Ashtami 22:46",
-			"Nakshatram": "Sathabhisha 27:43",
-			"Rahukalam": "18:29-20:17",
-			"Durmuhurtam": "18:22-19:20",
-			"Varjam": "08:49-10:37"
+			"Thithi": "Dvitiiya 12:30",
+			"Nakshatram": "Mrigashirsha 17:40",
+			"Rahukalam": "18:28-20:16",
+			"Durmuhurtam": "18:21-19:19",
+			"Varjam": "26:22-28:01"
 		},
 		{
-			"Thithi": "Navami 20:01",
-			"Nakshatram": "Purvabhadra Full Night",
-			"Rahukalam": "07:40-09:29",
-			"Durmuhurtam": "13:34-14:32",
-			"Varjam": "10:51-12:38"
+			"Thithi": "Tritiiya 12:48",
+			"Nakshatram": "Aardra 18:32",
+			"Rahukalam": "07:41-09:29",
+			"Durmuhurtam": "16:27-17:24, 13:34-14:31",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Dashami 26:51",
-			"Nakshatram": "Purvabhadra 06:28",
-			"Rahukalam": "16:42-18:30",
+			"Thithi": "26 Chaturthi 12:39",
+			"Nakshatram": "Punarvasu 18:58",
+			"Rahukalam": "16:41-18:30",
 			"Durmuhurtam": "08:45-09:43",
-			"Varjam": "17:00-18:45"
+			"Varjam": "06:45-08:23"
 		},
 		{
-			"Thithi": "Ekadashi 28:08",
-			"Nakshatram": "Uttarabhadra 08:48",
-			"Rahukalam": "13:05-14:54",
+			"Thithi": "Panchami 12:02",
+			"Nakshatram": "Pushya 18:57",
+			"Rahukalam": "13:05-14:53",
 			"Durmuhurtam": "12:36-13:34",
-			"Varjam": "21:41-23:24"
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Dwadashi 28:46",
-			"Nakshatram": "Revathi 10:33",
-			"Rahukalam": "14:54-16:43",
-			"Durmuhurtam": "10:40-11:38",
-			"Varjam": "None"
+			"Thithi": "Shashthi 10:57",
+			"Nakshatram": "Aslesha 18:28",
+			"Rahukalam": "14:54-16:42",
+			"Durmuhurtam": "10:41-11:38",
+			"Varjam": "07:29-09:03"
 		},
 		{
-			"Thithi": "Trayodashi 28:46",
-			"Nakshatram": "Ashwini 11:42",
-			"Rahukalam": "11:17-13:06",
-			"Durmuhurtam": "08:44-09:42",
-			"Varjam": "07:30-09:11"
-		}
-	],
-
-
-	"panchangam_june": [{
-			"Thithi": "Chaturdashi 28:10",
-			"Nakshatram": "Bharani 12:12",
+			"Thithi": "Saptami 09:25",
+			"Nakshatram": "Magha 17:33",
+			"Rahukalam": "11:17-13:05",
+			"Durmuhurtam": "08:45-09:43, 13:34-14:32",
+			"Varjam": "25:06-26:37, 06:00-07:33"
+		},
+		{
+			"Thithi": "Ashtami 07:27, Navami 29:07",
+			"Nakshatram": "Purvaphalguni 16:12",
 			"Rahukalam": "09:28-11:17",
 			"Durmuhurtam": "05:50-07:46",
-			"Varjam": "24:10-25:46"
+			"Varjam": "22:54-24:23"
 		},
 		{
-			"Thithi": "Amavasya 27:01",
-			"Nakshatram": "Krittika 12:08",
-			"Rahukalam": "18:33-20:22",
-			"Durmuhurtam": "18:26-19:24",
-			"Varjam": "27:46-29:20"
-		},
-		{
-			"Thithi": "Jyeshta Shukla, Prathama 25:27",
-			"Nakshatram": "Rohini 11:35",
-			"Rahukalam": "07:38-09:28",
-			"Durmuhurtam": "13:35-14:33",
-			"Varjam": "16:58-18:30"
-		},
-		{
-			"Thithi": "Dwitiya 23:33",
-			"Nakshatram": "Mrigashira 10:38",
-			"Rahukalam": "16:45-18:34",
-			"Durmuhurtam": "08:44-09:42",
-			"Varjam": "18:36-20:07"
-		},
-		{
-			"Thithi": "Tritiya 21:25",
-			"Nakshatram": "Aardra 09:24",
-			"Rahukalam": "13:06-14:56",
-			"Durmuhurtam": "12:37-13:35",
-			"Varjam": "20:41-22:11"
-		},
-		{
-			"Thithi": "Chaturthi 19:07",
-			"Nakshatram": "Punarvasu 07:58",
-			"Rahukalam": "14:56-16:45",
-			"Durmuhurtam": "10:40-11:39",
-			"Varjam": "15:27-16:57"
-		},
-		{
-			"Thithi": "Panchami 16:46",
-			"Nakshatram": "Pushya 06:26, Ashlesha 28:52",
-			"Rahukalam": "11:17-13:07",
-			"Durmuhurtam": "08:44-09:42, 13:36-14:34",
-			"Varjam": "18:24-19:53"
-		},
-		{
-			"Thithi": "Shashti 14:25",
-			"Nakshatram": "Magha 27:19",
-			"Rahukalam": "09:27-11:17",
-			"Durmuhurtam": "05:48-07:45",
-			"Varjam": "16:05-17:35"
-		},
-		{
-			"Thithi": "Saptami 12:06",
-			"Nakshatram": "Purvaphalguni 25:51",
-			"Rahukalam": "18:36-20:26",
-			"Durmuhurtam": "18:29-19:28",
-			"Varjam": "10:49-12:20"
-		},
-		{
-			"Thithi": "Ashtami 09:53",
-			"Nakshatram": "Uttara 24:30",
-			"Rahukalam": "07:38-09:28",
-			"Durmuhurtam": "13:37-14:35",
-			"Varjam": "08:39-10:09"
-		},
-		{
-			"Thithi": "Navami 07:49",
-			"Nakshatram": "Hasta 23:21",
-			"Rahukalam": "16:47-18:37",
-			"Durmuhurtam": "08:44-09:42",
-			"Varjam": "08:30-10:01"
-		},
-		{
-			"Thithi": "Dashami 05:57, Ekadashi 28:19",
-			"Nakshatram": "Chitra 22:25",
-			"Rahukalam": "13:08-14:58",
-			"Durmuhurtam": "10:41-11:40",
-			"Varjam": "07:02-08:34"
-		},
-		{
-			"Thithi": "Dwadashi 27:00",
-			"Nakshatram": "Swathi 21:46",
-			"Rahukalam": "14:58-16:48",
-			"Durmuhurtam": "10:41-11:40",
-			"Varjam": "27:18-28:53"
-		},
-		{
-			"Thithi": "Trayodashi 26:03",
-			"Nakshatram": "Vishakha 21:29",
-			"Rahukalam": "11:18-13:08",
-			"Durmuhurtam": "08:44-09:43",
-			"Varjam": "25:30-27:07"
-		},
-		{
-			"Thithi": "Chaturdashi 25:32",
-			"Nakshatram": "Anuradha 21:37",
-			"Rahukalam": "09:28-11:18",
-			"Durmuhurtam": "05:48-07:45",
-			"Varjam": "27:21-29:00"
-		},
-		{
-			"Thithi": "Purnima 25:30",
-			"Nakshatram": "Jyeshta 22:13",
-			"Rahukalam": "18:39-20:29",
-			"Durmuhurtam": "18:32-19:30",
-			"Varjam": "None"
-		},
-		{
-			"Thithi": "Prathama 26:00",
-			"Nakshatram": "Mula 23:20",
-			"Rahukalam": "07:38-09:28",
-			"Durmuhurtam": "13:38-14:37",
-			"Varjam": "21:40-23:20"
-		},
-		{
-			"Thithi": "Dwitiya 27:04",
-			"Nakshatram": "Purvashada 24:59",
-			"Rahukalam": "16:49-18:39",
-			"Durmuhurtam": "08:44-09:43",
-			"Varjam": "09:36-11:18"
-		},
-		{
-			"Thithi": "Tritiya 28:38",
-			"Nakshatram": "Uttarashada 27:09",
-			"Rahukalam": "13:09-14:59",
-			"Durmuhurtam": "12:40-13:38",
-			"Varjam": "09:43-11:27"
-		},
-		{
-			"Thithi": "Chaturthi Full N",
-			"Nakshatram": "Shravana 29:44",
-			"Rahukalam": "14:59-16:50",
-			"Durmuhurtam": "10:42-11:41",
-			"Varjam": "07:35-09:21"
-		},
-		{
-			"Thithi": "Chaturthi 06:38",
-			"Nakshatram": "Dhanishta Full Night",
-			"Rahukalam": "11:19-13:09",
-			"Durmuhurtam": "08:45-09:44",
-			"Varjam": "10:13-12:01"
-		},
-		{
-			"Thithi": "Panchami 08:57",
-			"Nakshatram": "Dhanishta 08:37",
-			"Rahukalam": "09:29-11:19",
-			"Durmuhurtam": "05:49-07:46",
-			"Varjam": "16:43-18:31"
-		},
-		{
-			"Thithi": "Shashti 11:22",
-			"Nakshatram": "Shatabhisha 11:37",
-			"Rahukalam": "18:41-20:31",
-			"Durmuhurtam": "18:33-19:32",
-			"Varjam": "18:48-20:35"
-		},
-		{
-			"Thithi": "Saptami 13:42",
-			"Nakshatram": "Purvabhadra 14:32",
-			"Rahukalam": "07:39-09:30",
-			"Durmuhurtam": "13:39-14:38",
-			"Varjam": "25:10-26:56"
-		},
-		{
-			"Thithi": "Ashtami 15:43",
-			"Nakshatram": "Uttarabhadra 17:07",
-			"Rahukalam": "16:51-18:41",
-			"Durmuhurtam": "08:46-09:45",
-			"Varjam": "None"
-		},
-		{
-			"Thithi": "Navami 17:14",
-			"Nakshatram": "Revathi 19:13",
-			"Rahukalam": "13:10-15:01",
-			"Durmuhurtam": "12:41-13:40",
-			"Varjam": "06:10-07:55"
-		},
-		{
-			"Thithi": "Dashami 18:06",
-			"Nakshatram": "Ashwini 20:41",
-			"Rahukalam": "15:01-16:51",
-			"Durmuhurtam": "10:44-11:43",
-			"Varjam": "16:27-18:08"
-		},
-		{
-			"Thithi": "Ekadashi 18:15",
-			"Nakshatram": "Bharani 21:27",
-			"Rahukalam": "11:21-13:11",
-			"Durmuhurtam": "08:47-09:45",
-			"Varjam": "06:36-08:15"
-		},
-		{
-			"Thithi": "Dwadashi 17:41",
-			"Nakshatram": "Krittika 21:31",
-			"Rahukalam": "09:31-11:21",
-			"Durmuhurtam": "05:51-07:48",
-			"Varjam": "09:29-11:05"
-		},
-		{
-			"Thithi": "Trayodashi 16:26",
-			"Nakshatram": "Rohini 20:55",
-			"Rahukalam": "18:41-20:31",
-			"Durmuhurtam": "18:34-19:32",
-			"Varjam": "13:07-14:40"
+			"Thithi": "Dashami 26:27",
+			"Nakshatram": "Uttaraphalguni 14:31",
+			"Rahukalam": "18:32-20:21",
+			"Durmuhurtam": "18:25-19:23",
+			"Varjam": "22:14-23:42"
 		}
 	],
 
-
+	"panchangam_june": [{
+			"Thithi": "Ekadashi 23:34",
+			"Nakshatram": "Hasta 12:33",
+			"Rahukalam": "07:39-09:28",
+			"Durmuhurtam": "13:35-14:33",
+			"Varjam": "19:50-21:17"
+		},
+		{
+			"Thithi": "Dvadashi 20:35",
+			"Nakshatram": "Chitra 10:24",
+			"Rahukalam": "16:44-18:33",
+			"Durmuhurtam": "08:44-09:42",
+			"Varjam": "15:30-16:57"
+		},
+		{
+			"Thithi": "Trayodashi 17:36",
+			"Nakshatram": "Swathi 08:13",
+			"Rahukalam": "13:06-14:55",
+			"Durmuhurtam": "12:37-13:35",
+			"Varjam": "13:19-14:47"
+		},
+		{
+			"Thithi": "Chaturdashi 14:45",
+			"Nakshatram": "Vishaakha 06:06, Anuraadha 28:13",
+			"Rahukalam": "14:56-16:45",
+			"Durmuhurtam": "10:40-11:39, 16:30-17:29",
+			"Varjam": "09:48-11:16"
+		},
+		{
+			"Thithi": "Purnima 12:12",
+			"Nakshatram": "Jyeshtha 26:42",
+			"Rahukalam": "11:17-13:06",
+			"Durmuhurtam": "08:44-09:42",
+			"Varjam": "09:28-10:58"
+		},
+		{
+			"Thithi": "Prathama 10:03",
+			"Nakshatram": "Mula 25:41",
+			"Rahukalam": "09:27-11:17",
+			"Durmuhurtam": "05:48-07:45",
+			"Varjam": "24:09-25:41"
+		},
+		{
+			"Thithi": "Dvitiiya 08:25",
+			"Nakshatram": "Purvashadha 25:15",
+			"Rahukalam": "16:36-20:25",
+			"Durmuhurtam": "18:28-19:27",
+			"Varjam": "11:06-12:41"
+		},
+		{
+			"Thithi": "Tritiiya 07:26",
+			"Nakshatram": "Uttarashadha 25:30",
+			"Rahukalam": "07:38-09:27",
+			"Durmuhurtam": "13:36-14:35",
+			"Varjam": "09:20-10:57"
+		},
+		{
+			"Thithi": "Chaturthi 07:09",
+			"Nakshatram": "Shravana 26:27",
+			"Rahukalam": "16:47-18:37",
+			"Durmuhurtam": "24:11-24:48, 08:44-09:42",
+			"Varjam": ""
+		},
+		{
+			"Thithi": "Panchami 07:34",
+			"Nakshatram": "Dhanishta 28:05",
+			"Rahukalam": "13:07-14:57",
+			"Durmuhurtam": "12:38-13:37",
+			"Varjam": "06:44-08:26"
+		},
+		{
+			"Thithi": "Shashthi 08:41",
+			"Nakshatram": "Shatabhisha full night ",
+			"Rahukalam": "14:57-16:47",
+			"Durmuhurtam": "10:41-11:40",
+			"Varjam": "11:57-13:42"
+		},
+		{
+			"Thithi": "Saptami 10:22",
+			"Nakshatram": "Shatabhisha 06:18",
+			"Rahukalam": "11:18-13:08",
+			"Durmuhurtam": "08:44-09:42",
+			"Varjam": "13:25-15:11"
+		},
+		{
+			"Thithi": "Ashtami 12:29",
+			"Nakshatram": "Purvabhadra  08:58",
+			"Rahukalam": "09:28-11:18",
+			"Durmuhurtam": "05:48-07:45",
+			"Varjam": "19:43-21:31"
+		},
+		{
+			"Thithi": "Navami 14:49",
+			"Nakshatram": "Uttarabhadra 11:51",
+			"Rahukalam": "18:38-20:29",
+			"Durmuhurtam": "18:31-19:30",
+			"Varjam": "25:19-27:07"
+		},
+		{
+			"Thithi": "Dashami 17:10",
+			"Nakshatram": "Revati 14:47",
+			"Rahukalam": "07:38-09:28",
+			"Durmuhurtam": "13:38-14:36, 16:34-17:33",
+			"Varjam": ""
+		},
+		{
+			"Thithi": "Ekadashi 19:20",
+			"Nakshatram": "Ashwini 17:34",
+			"Rahukalam": "16:49-18:39",
+			"Durmuhurtam": "08:44-09:43",
+			"Varjam": "13:06-14:53"
+		},
+		{
+			"Thithi": "Dvadashi 21:09",
+			"Nakshatram": "Bharani 20:01",
+			"Rahukalam": "13:09-14:59",
+			"Durmuhurtam": "12:39-13:38",
+			"Varjam": ""
+		},
+		{
+			"Thithi": "Trayodashi 22:31",
+			"Nakshatram": "Krittika 22:01",
+			"Rahukalam": "14:59-16:49",
+			"Durmuhurtam": "10:42-11:41",
+			"Varjam": "09:01-10:45"
+		},
+		{
+			"Thithi": "Chaturdashi23:22",
+			"Nakshatram": "Rohini 23:32",
+			"Rahukalam": "11:19-13:09",
+			"Durmuhurtam": "08:45-09:43",
+			"Varjam": "15:02-16:44"
+		},
+		{
+			"Thithi": "Amavasya 23:41",
+			"Nakshatram": "Mrigashirsha 24:31",
+			"Rahukalam": "09:29-11:19",
+			"Durmuhurtam": "05:48-07:46",
+			"Varjam": ""
+		},
+		{
+			"Thithi": "Ashada Shukla, Prathama 23:29",
+			"Nakshatram": "Aardra 25:01",
+			"Rahukalam": "18:40-20:31",
+			"Durmuhurtam": "18:33-19:32",
+			"Varjam": "09:06-10:44"
+		},
+		{
+			"Thithi": "Dvitiiya 22:49",
+			"Nakshatram": "Punarvasu 25:03",
+			"Rahukalam": "07:39-09:29",
+			"Durmuhurtam": "13:39-14:38",
+			"Varjam": "13:02-14:38"
+		},
+		{
+			"Thithi": "Tritiiya 21:44",
+			"Nakshatram": "Pushya 24:40",
+			"Rahukalam": "16:50-18:41",
+			"Durmuhurtam": "08:46-09:44",
+			"Varjam": "08:55-10:30"
+		},
+		{
+			"Thithi": "Chaturthi 20:17",
+			"Nakshatram": "Aslesha 23:56",
+			"Rahukalam": "13:10-15:00",
+			"Durmuhurtam": "12:41-13:40",
+			"Varjam": "13:05-14:38"
+		},
+		{
+			"Thithi": "Panchami 18:33",
+			"Nakshatram": "Magha 22:56",
+			"Rahukalam": "15:01-16:51",
+			"Durmuhurtam": "10:44-11:42",
+			"Varjam": "11:26-12:58"
+		},
+		{
+			"Thithi": "26 Shashthi 16:34",
+			"Nakshatram": "Purvaphalguni 21:41",
+			"Rahukalam": "11:21-13:11",
+			"Durmuhurtam": "08:46-09:45",
+			"Varjam": "06:31-08:02"
+		},
+		{
+			"Thithi": "Saptami 14:23",
+			"Nakshatram": "Uttara  20:16",
+			"Rahukalam": "09:31-11:21",
+			"Durmuhurtam": "05:51-07:48",
+			"Varjam": "28:08-29:38"
+		},
+		{
+			"Thithi": "Ashtami 12:05",
+			"Nakshatram": "Hasta 18:44",
+			"Rahukalam": "18:41-20:31",
+			"Durmuhurtam": "18:34-19:32",
+			"Varjam": "26:12-27:42"
+		},
+		{
+			"Thithi": "Navami 09:43",
+			"Nakshatram": "Chitra 17:09",
+			"Rahukalam": "07:41-09:31",
+			"Durmuhurtam": "13:41-14:39",
+			"Varjam": "22:23-23:52"
+		},
+		{
+			"Thithi": "Dashami 07:19, Ekadashi 28:59",
+			"Nakshatram": "Swathi 15:34",
+			"Rahukalam": "16:51-18:41",
+			"Durmuhurtam": "08:48-09:46, 24:16-24:53",
+			"Varjam": "20:49-22:19"
+		}
+	],
 
 	"panchangam_july": [{
-			"Thithi": "Chaturdashi 14:35",
-			"Nakshatram": "Mrigashira 19:44",
-			"Rahukalam": "07:42-09:32",
-			"Durmuhurtam": "13:41-14:39",
-			"Varjam": "27:34-29:03"
+			"Thithi": "Dwadashi 26:47",
+			"Nakshatram": "Vishakha 14:04",
+			"Rahukalam": "13:12-15:01",
+			"Durmuhurtam": "12:42-13:41",
+			"Varjam": "17:51-19:21"
 		},
 		{
-			"Thithi": "Amavasya 12:16",
-			"Nakshatram": "Aardra 18:06",
-			"Rahukalam": "16:51-18:41",
-			"Durmuhurtam": "08:48-09:47",
-			"Varjam": "29:07-30:35"
-		},
-		{
-			"Thithi": "Ashada Shukla Prathama 09:34",
-			"Nakshatram": "Punarvasu 16:09",
-			"Rahukalam": "13:12-15:02",
-			"Durmuhurtam": "12:43-13:41",
-			"Varjam": "23:26-24:53"
-		},
-		{
-			"Thithi": "Dwitiya 06:39, Tritiya 27:39",
-			"Nakshatram": "Pushya 14:00",
+			"Thithi": "Trayodashi 24:46",
+			"Nakshatram": "Anuradha 12:43",
 			"Rahukalam": "15:02-16:51",
-			"Durmuhurtam": "10:46-11:44",
-			"Varjam": "25:37-27:05"
+			"Durmuhurtam": "10:45-11:44",
+			"Varjam": "18:04-19:36"
 		},
 		{
-			"Thithi": "Chaturthi 24:39",
-			"Nakshatram": "Ashlesha 11:48",
-			"Rahukalam": "11:23-13:12",
-			"Durmuhurtam": "08:49-09:48",
-			"Varjam": "22:44-24:11"
+			"Thithi": "Chaturdashi 23:04",
+			"Nakshatram": "Jyeshta 11:38",
+			"Rahukalam": "11:22-13:12",
+			"Durmuhurtam": "08:49-09:47, 13:41-14:40",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Panchami 21:48",
-			"Nakshatram": "Magha 09:40",
+			"Thithi": "Poornima 21:44",
+			"Nakshatram": "Mula 10:52",
 			"Rahukalam": "09:33-11:23",
 			"Durmuhurtam": "05:54-07:51",
-			"Varjam": "17:01-18:29"
+			"Varjam": "09:19-10:52"
 		},
 		{
-			"Thithi": "Shashti 19:12",
-			"Nakshatram": "Purvaphalguni 07:43",
+			"Thithi": "Prathama 20:52",
+			"Nakshatram": "Purvashada 10:32",
 			"Rahukalam": "18:41-20:30",
 			"Durmuhurtam": "18:33-19:32",
-			"Varjam": "14:25-15:55"
+			"Varjam": "18:35-20:12"
 		},
 		{
-			"Thithi": "Saptami 16:54",
-			"Nakshatram": "Uttara 06:03, Hasta 28:45",
-			"Rahukalam": "07:45-09:34",
+			"Thithi": "Dwitiya 20:32",
+			"Nakshatram": "Uttarashada 10:42",
+			"Rahukalam": "07:44-09:34",
 			"Durmuhurtam": "13:42-14:40, 16:37-17:35",
-			"Varjam": "14:00-15:31"
+			"Varjam": "14:49-16:28"
 		},
 		{
-			"Thithi": "Ashtami 15:00",
-			"Nakshatram": "Chitra 27:52",
+			"Thithi": "Tritiiya 20:49",
+			"Nakshatram": "Shravana 11:26",
 			"Rahukalam": "16:51-18:40",
-			"Durmuhurtam": "08:51-09:49",
-			"Varjam": "12:27-14:00"
+			"Durmuhurtam": "08:50-09:49, 24:16-24:54",
+			"Varjam": "15:39-17:20"
 		},
 		{
-			"Thithi": "Navami 13:32",
-			"Nakshatram": "Swati 27:25",
+			"Thithi": "Chaturthi 21:41",
+			"Nakshatram": "Dhanishta 12:45",
 			"Rahukalam": "13:13-15:02",
 			"Durmuhurtam": "12:44-13:42",
-			"Varjam": "09:21-10:56"
+			"Varjam": "20:31-22:15"
 		},
 		{
-			"Thithi": "Dashami 12:32",
-			"Nakshatram": "Vishakha 27:27",
+			"Thithi": "Panchami 23:08",
+			"Nakshatram": "Shatabhisha 14:39",
 			"Rahukalam": "15:02-16:51",
-			"Durmuhurtam": "10:48-11:46",
-			"Varjam": "09:01-10:38"
+			"Durmuhurtam": "10:47-11:46, 16:36-17:35",
+			"Varjam": "21:41-23:27"
 		},
 		{
-			"Thithi": "Ekadashi 12:01",
-			"Nakshatram": "Anuradha 27:57",
+			"Thithi": "Shashthi 25:03",
+			"Nakshatram": "Purvabhadra 17:03",
 			"Rahukalam": "11:24-13:13",
-			"Durmuhurtam": "08:52-09:50",
-			"Varjam": "07:32-09:10"
+			"Durmuhurtam": "08:52-09:50, 13:42-14:40",
+			"Varjam": "27:45-29:32"
 		},
 		{
-			"Thithi": "Dwadashi 11:58",
-			"Nakshatram": "Jyeshta 28:56",
-			"Rahukalam": "09:36-11:25",
-			"Durmuhurtam": "05:59-07:55",
-			"Varjam": "09:47-11:27"
+			"Thithi": "Saptami 27:18",
+			"Nakshatram": "Uttarabhadra 19:48",
+			"Rahukalam": "09:35-11:24",
+			"Durmuhurtam": "05:58-07:54",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Trayodashi 12:24",
-			"Nakshatram": "Mula Full Night",
-			"Rahukalam": "18:39-20:27",
-			"Durmuhurtam": "18:32-19:29",
-			"Varjam": "28:40-30:21"
+			"Thithi": "Ashtami 29:39",
+			"Nakshatram": "Revati 22:44",
+			"Rahukalam": "18:39-20:28",
+			"Durmuhurtam": "18:32-19:30",
+			"Varjam": "09:16-11:04"
 		},
 		{
-			"Thithi": "Chaturdashi 13:18",
-			"Nakshatram": "Mula 06:21",
-			"Rahukalam": "07:48-09:37",
+			"Thithi": "Navami full night",
+			"Nakshatram": "Ashwini 25:37",
+			"Rahukalam": "07:48-09:36",
 			"Durmuhurtam": "13:42-14:40",
-			"Varjam": "16:42-18:26"
+			"Varjam": "12:08-22:55"
 		},
 		{
-			"Thithi": "Purnima 14:38",
-			"Nakshatram": "Purvashada 08:13",
-			"Rahukalam": "16:50-18:38",
-			"Durmuhurtam": "08:54-09:52",
-			"Varjam": "16:58-18:43"
+			"Thithi": "Navami 07:54",
+			"Nakshatram": "Bharani 28:13",
+			"Rahukalam": "16:50-18:39",
+			"Durmuhurtam": "08:53-09:51",
+			"Varjam": "12:15-14:02"
 		},
 		{
-			"Thithi": "Prathama 16:21",
-			"Nakshatram": "Uttarashada 10:28",
+			"Thithi": "Dashami 09:49",
+			"Nakshatram": "Krittika full night",
 			"Rahukalam": "13:14-15:02",
 			"Durmuhurtam": "12:45-13:42",
-			"Varjam": "14:54-16:41"
+			"Varjam": "17:18-19:03"
 		},
 		{
-			"Thithi": "Dwitiya 18:25",
-			"Nakshatram": "Shravana 13:04",
-			"Rahukalam": "15:02-16:49",
-			"Durmuhurtam": "10:50-11:47",
-			"Varjam": "17:32-19:20"
+			"Thithi": "Ekadashi 11:15",
+			"Nakshatram": "Krittika 06:23",
+			"Rahukalam": "15:02-16:50",
+			"Durmuhurtam": "10:49-11:47",
+			"Varjam": "23:26-25:08"
 		},
 		{
-			"Thithi": "Tritiya 20:43",
-			"Nakshatram": "Dhanishta 15:55",
+			"Thithi": "Dvadashi 12:03",
+			"Nakshatram": "Rohini 07:58",
 			"Rahukalam": "11:26-13:14",
-			"Durmuhurtam": "08:55-09:53",
-			"Varjam": "24:01-25:49"
+			"Durmuhurtam": "08:55-09:52",
+			"Varjam": "13:47-15:26"
 		},
 		{
-			"Thithi": "Chaturthi 23:09",
-			"Nakshatram": "Satabhisha 18:55",
-			"Rahukalam": "09:39-11:26",
-			"Durmuhurtam": "06:04-07:58",
-			"Varjam": "26:07-27:55"
+			"Thithi": "Trayodashi 12:11",
+			"Nakshatram": "Mrigashirsha 08:53",
+			"Rahukalam": "09:38-11:26",
+			"Durmuhurtam": "06:03-07:58",
+			"Varjam": "17:23-19:00"
 		},
 		{
-			"Thithi": "Panchami 25:34",
-			"Nakshatram": "Purvabhadra 21:54",
-			"Rahukalam": "18:36-20:23",
-			"Durmuhurtam": "18:29-19:26",
-			"Varjam": "None"
+			"Thithi": "Chaturdashi11:40",
+			"Nakshatram": "Aardra 09:10",
+			"Rahukalam": "18:37-20:24",
+			"Durmuhurtam": "18:29-19:27",
+			"Varjam": "21:00-22:35"
 		},
 		{
-			"Thithi": "Shashti 27:46",
-			"Nakshatram": "Uttarabhadra 24:44",
-			"Rahukalam": "07:52-09:40",
+			"Thithi": "Amavasya 10:32",
+			"Nakshatram": "Punarvasu 08:50",
+			"Rahukalam": "07:52-09:39",
 			"Durmuhurtam": "13:42-14:40",
-			"Varjam": "08:38-10:25"
+			"Varjam": "16:34-18:06"
 		},
 		{
-			"Thithi": "Saptami 29:35",
-			"Nakshatram": "Revathi 27:12",
-			"Rahukalam": "16:48-18:35",
-			"Durmuhurtam": "08:57-09:54",
-			"Varjam": "13:58-15:44"
+			"Thithi": "Shravana Shukla, Prathama 08:54",
+			"Nakshatram": "Pushya 08:00",
+			"Rahukalam": "16:48-18:36",
+			"Durmuhurtam": "08:57-09:54, 24:16-24:55",
+			"Varjam": "20:08-21:39"
 		},
 		{
-			"Thithi": "Ashtami Full N",
-			"Nakshatram": "Ashwini 29:09",
+			"Thithi": "Dvitiiya 06:52",
+			"Nakshatram": "Aslesha 06:45, Magha 29:14",
 			"Rahukalam": "13:14-15:01",
 			"Durmuhurtam": "12:45-13:42",
-			"Varjam": "24:49-26:33"
+			"Varjam": "18:00-19:29"
 		},
 		{
-			"Thithi": "Ashtami 06:51",
-			"Nakshatram": "Bharani Full Night",
-			"Rahukalam": "15:01-16:47",
-			"Durmuhurtam": "10:52-11:49",
-			"Varjam": "15:16-16:57"
+			"Thithi": "Chaturthi 26:04",
+			"Nakshatram": "Purvaphalguni 27:32",
+			"Rahukalam": "15:01-16:48",
+			"Durmuhurtam": "10:51-11:48",
+			"Varjam": "12:40-14:09"
 		},
 		{
-			"Thithi": "Navami 07:26",
-			"Nakshatram": "Bharani 06:26",
-			"Rahukalam": "11:28-13:14",
-			"Durmuhurtam": "08:59-09:55",
-			"Varjam": "18:43-20:21"
+			"Thithi": "Panchami 23:32",
+			"Nakshatram": "Uttara 25:48",
+			"Rahukalam": "11:27-13:14",
+			"Durmuhurtam": "08:58-09:55",
+			"Varjam": "10:13-11:42"
 		},
 		{
-			"Thithi": "Dashami 07:16",
-			"Nakshatram": "Krittika 07:00",
-			"Rahukalam": "09:42-11:28",
-			"Durmuhurtam": "06:09-08:02",
-			"Varjam": "22:52-24:27"
+			"Thithi": "Shashthi 21:02",
+			"Nakshatram": "Hasta 24:07",
+			"Rahukalam": "09:41-11:27",
+			"Durmuhurtam": "06:08-08:02",
+			"Varjam": "09:37-11:06"
 		},
 		{
-			"Thithi": "Ekadashi 06:19, Dwadashi 28:39",
-			"Nakshatram": "Rohini 06:48",
-			"Rahukalam": "18:32-20:18",
-			"Durmuhurtam": "18:25-19:21",
-			"Varjam": "12:11-13:43"
+			"Thithi": "26 Saptami 18:39",
+			"Nakshatram": "Chitra 22:33",
+			"Rahukalam": "18:33-20:19",
+			"Durmuhurtam": "18:26-19:22",
+			"Varjam": "07:36-09:06"
 		},
 		{
-			"Thithi": "Trayodashi 26:19",
-			"Nakshatram": "Aardra 28:17",
-			"Rahukalam": "07:57-09:42",
-			"Durmuhurtam": "13:42-14:38",
-			"Varjam": "13:43-15:12"
+			"Thithi": "Ashtami 16:28",
+			"Nakshatram": "Swathi 21:11",
+			"Rahukalam": "07:56-09:42",
+			"Durmuhurtam": "13:42-14:39",
+			"Varjam": "26:31-28:03"
 		},
 		{
-			"Thithi": "Chaturdashi 23:27",
-			"Nakshatram": "Punarvasu 26:11",
-			"Rahukalam": "16:45-18:31",
-			"Durmuhurtam": "09:00-09:57",
-			"Varjam": "15:14-16:41"
+			"Thithi": "Navami 14:29",
+			"Nakshatram": "Vishaakha 20:03",
+			"Rahukalam": "16:46-18:31",
+			"Durmuhurtam": "09:00-09:56",
+			"Varjam": "23:54-25:27"
 		},
 		{
-			"Thithi": "Amavasya 20:11",
-			"Nakshatram": "Pushya 23:41",
+			"Thithi": "Dashami 12:46",
+			"Nakshatram": "Anuraadha 19:10",
 			"Rahukalam": "13:14-14:59",
 			"Durmuhurtam": "12:46-13:42",
-			"Varjam": "09:21-10:47"
+			"Varjam": "24:38-26:12"
+		},
+		{
+			"Thithi": "Ekadashi 11:20",
+			"Nakshatram": "Jyeshtha 18:35",
+			"Rahukalam": "14:59-16:45",
+			"Durmuhurtam": "10:53-11:49, 16:31-17:27",
+			"Varjam": ""
+		},
+		{
+			"Thithi": "Dvadashi 10:12",
+			"Nakshatram": "Mula 18:18",
+			"Rahukalam": "11:29-13:14",
+			"Durmuhurtam": "09:01-09:57",
+			"Varjam": "16:43-18:18"
 		}
 	],
 
 	"panchangam_aug": [{
-			"Thithi": "Shravana Shukla, Prathama 16:41",
-			"Nakshatram": "Ashlesha 20:59",
-			"Rahukalam": "14:59-16:44",
-			"Durmuhurtam": "10:54-11:50, 16:30-17:26",
-			"Varjam": "11:03-12:28"
-		},
-		{
-			"Thithi": "Dwitiya 13:06",
-			"Nakshatram": "Magha 18:14",
-			"Rahukalam": "18:14-11:29",
-			"Durmuhurtam": "09:02-09:58",
-			"Varjam": "07:36-09:01"
-		},
-		{
-			"Thithi": "Tritiya 09:35",
-			"Nakshatram": "Purvaphalguni 15:35",
+			"Thithi": "Trayodashi 09:24",
+			"Nakshatram": "Purvashadha 18:22",
 			"Rahukalam": "09:44-11:29",
-			"Durmuhurtam": "06:15-08:07",
-			"Varjam": "22:05-23:31"
+			"Durmuhurtam": "06:14-08:06",
+			"Varjam": "26:31-28:09"
 		},
 		{
-			"Thithi": "Chaturthi 06:18, Panchami 27:24",
-			"Nakshatram": "Uttaraphalguni 13:14",
-			"Rahukalam": "18:27-20:11",
-			"Durmuhurtam": "18:20-19:16",
-			"Varjam": "20:57-22:25"
+			"Thithi": "Chaturdashi 08:59",
+			"Nakshatram": "Uttarashadha 18:49",
+			"Rahukalam": "18:28-20:13",
+			"Durmuhurtam": "18:21-19:27",
+			"Varjam": "20:57-24:37"
 		},
 		{
-			"Thithi": "Shashti 25:00",
-			"Nakshatram": "Hasta 11:17",
-			"Rahukalam": "08:01-09:45",
+			"Thithi": "Purnima 08:58",
+			"Nakshatram": "Shravana 19:41",
+			"Rahukalam": "08:00-09:44",
 			"Durmuhurtam": "13:41-14:37",
-			"Varjam": "18:49-20:19"
+			"Varjam": "23:54-25:35"
 		},
 		{
-			"Thithi": "Saptami 23:10",
-			"Nakshatram": "Chitra 09:53",
-			"Rahukalam": "16:41-18:25",
-			"Durmuhurtam": "09:04-09:59",
-			"Varjam": "15:18-16:51"
+			"Thithi": "Prathama 09:25",
+			"Nakshatram": "Dhanishta 21:00",
+			"Rahukalam": "16:42-18:26",
+			"Durmuhurtam": "09:03-09:59",
+			"Varjam": "28:45-30:28"
 		},
 		{
-			"Thithi": "Ashtami 22:00",
-			"Nakshatram": "Swathi 09:05",
+			"Thithi": "Dvitiiya 10:20",
+			"Nakshatram": "Shatabhisha 22:48",
 			"Rahukalam": "13:13-14:57",
-			"Durmuhurtam": "12:45-13:41",
-			"Varjam": "14:40-16:15"
+			"Durmuhurtam": "12:46-13:41",
+			"Varjam": "29:48-31:33"
 		},
 		{
-			"Thithi": "Navami 21:30",
-			"Nakshatram": "Vishakha 08:57",
-			"Rahukalam": "14:56-16:40",
-			"Durmuhurtam": "10:55-11:50",
-			"Varjam": "13:02-14:40"
+			"Thithi": "Tritiiya 11:45",
+			"Nakshatram": "Purvabhadra 25:03",
+			"Rahukalam": "14:57-16:41",
+			"Durmuhurtam": "10:55-11:50, 16:27-17:22",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Dashami 21:38",
-			"Nakshatram": "Anuradha 09:28",
-			"Rahukalam": "11:30-13:13",
+			"Thithi": "Chaturthi 13:36",
+			"Nakshatram": "Uttarabhadra 27:42",
+			"Rahukalam": "11:29-13:13",
 			"Durmuhurtam": "09:05-10:00",
-			"Varjam": "15:20-17:00"
+			"Varjam": "11:43-13:29"
 		},
 		{
-			"Thithi": "Ekadashi 22:22",
-			"Nakshatram": "Jyeshta 10:35",
-			"Rahukalam": "09:47-11:30",
-			"Durmuhurtam": "06:21-08:11",
-			"Varjam": "None"
+			"Thithi": "Panchami 15:48",
+			"Nakshatram": "Revati full night",
+			"Rahukalam": "09:46-11:30",
+			"Durmuhurtam": "06:20-08:10",
+			"Varjam": "17:09-18:57"
 		},
 		{
-			"Thithi": "Dwadashi 23:36",
-			"Nakshatram": "Mula 12:15",
-			"Rahukalam": "18:21-20:04",
-			"Durmuhurtam": "18:14-19:09",
-			"Varjam": "10:32-12:15, 22:41-24:26"
+			"Thithi": "Shashthi 18:13",
+			"Nakshatram": "Revati 06:36",
+			"Rahukalam": "18:22-20:05",
+			"Durmuhurtam": "18:15-19:10",
+			"Varjam": "29:06-30:54"
 		},
 		{
-			"Thithi": "Trayodashi 25:16",
-			"Nakshatram": "Purvashada 14:21",
-			"Rahukalam": "08:05-09:47",
-			"Durmuhurtam": "13:40-14:34",
-			"Varjam": "23:10-24:56"
+			"Thithi": "Saptami 20:37",
+			"Nakshatram": "Ashwini 09:35",
+			"Rahukalam": "08:04-09:47",
+			"Durmuhurtam": "13:40-14:35",
+			"Varjam": "20:20-22:07"
 		},
 		{
-			"Thithi": "Chaturdashi 27:15",
-			"Nakshatram": "Uttarashada 16:49",
-			"Rahukalam": "16:37-18:19",
-			"Durmuhurtam": "09:07-10:01",
-			"Varjam": "21:16-23:03"
+			"Thithi": "Ashtami 22:46",
+			"Nakshatram": "Bharani 12:27",
+			"Rahukalam": "16:38-18:20",
+			"Durmuhurtam": "09:06-10:01",
+			"Varjam": "25:41-27:27"
 		},
 		{
-			"Thithi": "Purnima 29:29",
-			"Nakshatram": "Shravana 19:32",
-			"Rahukalam": "13:12-14:54",
-			"Durmuhurtam": "12:45-13:39",
-			"Varjam": "24:01-25:48"
+			"Thithi": "Navami 24:28",
+			"Nakshatram": "Krittika 14:56",
+			"Rahukalam": "13:12-14:55",
+			"Durmuhurtam": "12:45-13:40",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Prathama Full N",
-			"Nakshatram": "Dhanishta 22:26",
-			"Rahukalam": "14:54-16:35",
+			"Thithi": "Dashami 25:32",
+			"Nakshatram": "Rohini 16:52",
+			"Rahukalam": "14:54-16:36",
 			"Durmuhurtam": "10:56-11:50",
-			"Varjam": "None"
+			"Varjam": "08:13-09:57"
 		},
 		{
-			"Thithi": "Prathama 07:51",
-			"Nakshatram": "Satabhisha 25:25",
+			"Thithi": "Ekadashi 25:50",
+			"Nakshatram": "Mrigashirsha 18:06",
 			"Rahukalam": "11:30-13:12",
 			"Durmuhurtam": "09:08-10:02",
-			"Varjam": "06:31-08:19"
+			"Varjam": "26:39-28:17"
 		},
 		{
-			"Thithi": "Dwitiya 10:18",
-			"Nakshatram": "Purvabhadra 28:25",
+			"Thithi": "Dvadashi 25:20",
+			"Nakshatram": "Aardra 18:33",
 			"Rahukalam": "09:49-11:30",
-			"Durmuhurtam": "06:27-08:15",
-			"Varjam": "08:37-10:25"
+			"Durmuhurtam": "06:26-08:14",
+			"Varjam": "30:23-31:58"
 		},
 		{
-			"Thithi": "Tritiya 12:43",
-			"Nakshatram": "Uttarabhadra Full Night",
-			"Rahukalam": "18:14-19:55",
-			"Durmuhurtam": "18:07-19:01",
-			"Varjam": "15:10-16:58"
+			"Thithi": "Trayodashi 24:05",
+			"Nakshatram": "Punarvasu 18:14",
+			"Rahukalam": "18:15-19:56",
+			"Durmuhurtam": "18:08-19:02",
+			"Varjam": "25:54-27:26"
 		},
 		{
-			"Thithi": "Chaturthi 15:00",
-			"Nakshatram": "Uttarabhadra 07:18",
-			"Rahukalam": "08:09-09:50",
-			"Durmuhurtam": "13:38-14:31",
-			"Varjam": "20:38-22:25"
+			"Thithi": "Chaturdashi22:09",
+			"Nakshatram": "Pushya 17:13",
+			"Rahukalam": "08:08-09:49",
+			"Durmuhurtam": "13:38-14:32",
+			"Varjam": "29:10-30:40"
 		},
 		{
-			"Thithi": "Panchami 17:00",
-			"Nakshatram": "Revathi 09:58",
-			"Rahukalam": "16:31-18:12",
-			"Durmuhurtam": "09:10-10:03",
-			"Varjam": "None"
+			"Thithi": "Amavasya 19:41",
+			"Nakshatram": "Aslesha 15:38",
+			"Rahukalam": "16:32-18:13",
+			"Durmuhurtam": "09:09-10:03",
+			"Varjam": "26:37-28:05"
 		},
 		{
-			"Thithi": "Shashti 18:36",
-			"Nakshatram": "Ashwini 12:17",
-			"Rahukalam": "13:10-14:51",
-			"Durmuhurtam": " 22:37-24:20",
-			"Varjam": "07:54-09:39"
+			"Thithi": "BhadrapadaShukla, Prathama 16:49",
+			"Nakshatram": "Magha 13:37",
+			"Rahukalam": "13:11-14:51",
+			"Durmuhurtam": "12:44-13:38",
+			"Varjam": "20:52-22:18"
 		},
 		{
-			"Thithi": "Saptami 19:39",
-			"Nakshatram": "Bharani 14:06",
-			"Rahukalam": "14:50-16:30",
+			"Thithi": "Dvitiiya 13:43",
+			"Nakshatram": "Purvaphalguni 11:21",
+			"Rahukalam": "14:51-16:31",
 			"Durmuhurtam": "10:57-11:50",
-			"Varjam": "26:42-28:22"
+			"Varjam": "17:50-19:17"
 		},
 		{
-			"Thithi": "Ashtami 20:02",
-			"Nakshatram": "Krittika 15:17",
+			"Thithi": "Tritiiya 10:33",
+			"Nakshatram": "Uttara 08:59",
 			"Rahukalam": "11:30-13:10",
-			"Durmuhurtam": "09:11-10:04",
-			"Varjam": "None"
+			"Durmuhurtam": "09:10-10:04",
+			"Varjam": "16:34-18:01"
 		},
 		{
-			"Thithi": "Navami 19:40",
-			"Nakshatram": "Rohini 15:46",
-			"Rahukalam": "09:51-11:30",
-			"Durmuhurtam": " 21:18-22:53",
-			"Varjam": "07:36-09:14"
+			"Thithi": "Chaturthi 07:27, Panchami 28:34",
+			"Nakshatram": "Hasta 06:41",
+			"Rahukalam": "09:51-14:50",
+			"Durmuhurtam": "06:31-08:18",
+			"Varjam": "13:59-15:27"
 		},
 		{
-			"Thithi": "Dashami 18:32",
-			"Nakshatram": "Mrigashira 15:29",
-			"Rahukalam": "18:06-19:45",
-			"Durmuhurtam": "18:00-18:53",
-			"Varjam": "23:31-25:03"
+			"Thithi": "Shashthi 26:01",
+			"Nakshatram": "Swathi 26:50",
+			"Rahukalam": "18:08-19:47",
+			"Durmuhurtam": "18:01-18:54",
+			"Varjam": "09:47-11:16"
 		},
 		{
-			"Thithi": "Ekadashi 16:39",
-			"Nakshatram": "Ardra 14:26",
-			"Rahukalam": "08:13-09:52",
-			"Durmuhurtam": "13:35-14:28",
-			"Varjam": "25:35-27:04"
+			"Thithi": "Saptami 23:52",
+			"Nakshatram": "Vishaakha 25:29",
+			"Rahukalam": "08:12-09:51",
+			"Durmuhurtam": "13:36-14:29",
+			"Varjam": "08:07-09:38"
 		},
 		{
-			"Thithi": "Dwadashi 14:06",
-			"Nakshatram": "Punarvasu 12:43",
-			"Rahukalam": "16:26-18:04",
-			"Durmuhurtam": "09:13-10:05",
-			"Varjam": "19:57-21:24"
+			"Thithi": "Ashtami 22:09",
+			"Nakshatram": "Anuraadha 24:34",
+			"Rahukalam": "16:27-18:06",
+			"Durmuhurtam": "09:12-10:05",
+			"Varjam": "30:04-31:38"
 		},
 		{
-			"Thithi": "Trayodashi 10:58",
-			"Nakshatram": "Pushya 10:25",
+			"Thithi": "26 Navami 20:55",
+			"Nakshatram": "Jyeshtha 24:07",
 			"Rahukalam": "13:09-14:47",
-			"Durmuhurtam": "12:42-13:35",
-			"Varjam": "21:45-23:10"
+			"Durmuhurtam": "12:43-13:35",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Chaturdashi 07:25, Amavasya 27:37",
-			"Nakshatram": "Ashlesha 07:41",
-			"Rahukalam": "14:46-16:24",
+			"Thithi": "Dashami 20:08",
+			"Nakshatram": "Mula 24:07",
+			"Rahukalam": "14:47-16:25",
 			"Durmuhurtam": "10:58-11:50",
-			"Varjam": "18:11-19:35"
+			"Varjam": "22:31-24:07"
 		},
 		{
-			"Thithi": "Bhadrapada Shukla Prathama 23:43",
-			"Nakshatram": "Purvaphalguni 25:37",
+			"Thithi": "Ekadashi 19:47",
+			"Nakshatram": "Purvashadha 24:33",
 			"Rahukalam": "11:30-13:08",
-			"Durmuhurtam": "09:14-10:06",
-			"Varjam": "11:40-13:03"
+			"Durmuhurtam": "09:13-10:05",
+			"Varjam": "09:53-11:31"
 		},
 		{
-			"Thithi": "Dwitiya 19:56",
-			"Nakshatram": "Uttara 22:40",
+			"Thithi": "Dvadashi 19:51",
+			"Nakshatram": "Uttarashadha 25:22",
 			"Rahukalam": "09:53-11:30",
-			"Durmuhurtam": "06:38-08:22",
-			"Varjam": "07:56-09:20"
+			"Durmuhurtam": "06:37-08:21",
+			"Varjam": "08:49-10:28"
+		},
+		{
+			"Thithi": "Trayodashi 20:19",
+			"Nakshatram": "Shravana 26:34",
+			"Rahukalam": "18:00-19:37",
+			"Durmuhurtam": "17:53-18:45",
+			"Varjam": ""
+		},
+		{
+			"Thithi": "Chaturdashi21:09",
+			"Nakshatram": "Dhanishta 28:08",
+			"Rahukalam": "08:16-09:53",
+			"Durmuhurtam": "13:33-14:25",
+			"Varjam": "06:49-08:32"
 		}
 	],
 
 	"panchangam_sep": [{
-			"Thithi": "Tritiya 16:26",
-			"Nakshatram": "Hasta 20:02",
-			"Rahukalam": "17:58-19:35",
-			"Durmuhurtam": "17:52-18:44",
-			"Varjam": "27:20-28:47"
+			"Thithi": "Purnima 22:21",
+			"Nakshatram": "Shatabhisha 30:04",
+			"Rahukalam": "16:21-17:58",
+			"Durmuhurtam": "09:15-10:06",
+			"Varjam": "11:54-13:38"
 		},
 		{
-			"Thithi": "Chaturthi 13:23",
-			"Nakshatram": "Chitra 17:54",
-			"Rahukalam": "08:17-09:53",
-			"Durmuhurtam": "13:33-14:24",
-			"Varjam": "23:09-24:39"
-		},
-		{
-			"Thithi": "Panchami 10:57",
-			"Nakshatram": "Swathi 16:23",
-			"Rahukalam": "16:20-17:56",
-			"Durmuhurtam": "09:15-10:07",
-			"Varjam": "21:48-23:21"
-		},
-		{
-			"Thithi": "Shashti 09:14",
-			"Nakshatram": "Vishakha 15:37",
-			"Rahukalam": "13:06-14:43",
+			"Thithi": "Prathama 23:57",
+			"Nakshatram": "Purvabhadra full night",
+			"Rahukalam": "13:07-14:43",
 			"Durmuhurtam": "12:41-13:32",
-			"Varjam": "19:37-21:13"
+			"Varjam": "13:04-14:49"
 		},
 		{
-			"Thithi": "Saptami 08:19",
-			"Nakshatram": "Anuradha 15:39",
-			"Rahukalam": "14:42-16:18",
+			"Thithi": "Dvitiiya 25:53",
+			"Nakshatram": "Purvabhadra 08:21",
+			"Rahukalam": "14:43-16:19",
 			"Durmuhurtam": "10:58-11:49",
-			"Varjam": "21:26-23:05"
+			"Varjam": "19:00-20:46"
 		},
 		{
-			"Thithi": "Ashtami 08:13",
-			"Nakshatram": "Jyeshta 16:27",
+			"Thithi": "Tritiiya 28:09",
+			"Nakshatram": "Uttarabhadra 10:58",
 			"Rahukalam": "11:30-13:06",
 			"Durmuhurtam": "09:16-10:07",
-			"Varjam": "None"
+			"Varjam": "24:24-26:12"
 		},
 		{
-			"Thithi": "Navami 08:52",
-			"Nakshatram": "Mula 17:59",
-			"Rahukalam": "09:55-11:30",
-			"Durmuhurtam": "06:44-08:26",
-			"Varjam": "16:17-17:59"
+			"Thithi": "Chaturthi 30:37",
+			"Nakshatram": "Revati 13:51",
+			"Rahukalam": "09:54-11:30",
+			"Durmuhurtam": "06:43-08:25",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Dashami 10:11",
-			"Nakshatram": "Purvashada 20:06",
-			"Rahukalam": "17:50-19:25",
-			"Durmuhurtam": "17:44-18:34",
-			"Varjam": "28:57-30:43"
+			"Thithi": "Panchami full night",
+			"Nakshatram": "Ashwini 16:54",
+			"Rahukalam": "17:52-19:27",
+			"Durmuhurtam": "17:45-18:36",
+			"Varjam": "12:23-14:11"
 		},
 		{
-			"Thithi": "Ekadashi 12:01",
-			"Nakshatram": "Uttarashada 22:39",
+			"Thithi": "Panchami 09:08",
+			"Nakshatram": "Bharani 19:56",
 			"Rahukalam": "08:20-09:55",
-			"Durmuhurtam": "13:30-14:20",
-			"Varjam": "27:07-28:55"
+			"Durmuhurtam": "13:30-14:21, 16:03-16:53",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Dwadashi 14:12",
-			"Nakshatram": "Shravana 25:29",
-			"Rahukalam": "16:13-17:48",
+			"Thithi": "Shashthi 11:33",
+			"Nakshatram": "Krittika 22:45",
+			"Rahukalam": "16:14-17:49",
+			"Durmuhurtam": "09:17-10:08",
+			"Varjam": "09:20-11:08"
+		},
+		{
+			"Thithi": "Saptami 13:36",
+			"Nakshatram": "Rohini 25:09",
+			"Rahukalam": "13:04-14:39",
+			"Durmuhurtam": "12:39-13:30",
+			"Varjam": "16:21-18:07"
+		},
+		{
+			"Thithi": "Ashtami 15:05",
+			"Nakshatram": "Mrigashirsha 26:55",
+			"Rahukalam": "14:38-16:12",
+			"Durmuhurtam": "10:58-11:49",
+			"Varjam": "07:10-08:53"
+		},
+		{
+			"Thithi": "Navami 15:49",
+			"Nakshatram": "Aardra 27:55",
+			"Rahukalam": "11:30-13:04",
 			"Durmuhurtam": "09:18-10:08",
-			"Varjam": "29:59-31:47"
+			"Varjam": "11:40-13:20"
 		},
 		{
-			"Thithi": "Trayodashi 16:36",
-			"Nakshatram": "Dhanishta 28:28",
-			"Rahukalam": "13:04-14:38",
-			"Durmuhurtam": "12:39-13:29",
-			"Varjam": "None"
-		},
-		{
-			"Thithi": "Chaturdashi 19:05",
-			"Nakshatram": "Satabhisha Full Night",
-			"Rahukalam": "14:37-16:11",
-			"Durmuhurtam": "10:58-11:48",
-			"Varjam": "12:34-14:22"
-		},
-		{
-			"Thithi": "Purnima 21:32",
-			"Nakshatram": "Satabhisha 07:28",
-			"Rahukalam": "11:30-13:03",
-			"Durmuhurtam": "09:19-10:09",
-			"Varjam": "14:40-16:27"
-		},
-		{
-			"Thithi": "Prathama 23:53",
-			"Nakshatram": "Purvabhadra 10:25",
+			"Thithi": "Dashami 15:44",
+			"Nakshatram": "Punarvasu 28:04",
 			"Rahukalam": "09:56-11:30",
-			"Durmuhurtam": "06:50-08:29",
-			"Varjam": "21:09-22:56"
+			"Durmuhurtam": "06:49-08:29",
+			"Varjam": "15:59-17:36"
 		},
 		{
-			"Thithi": "Dwitiya 26:05",
-			"Nakshatram": "Uttarabhadra 13:14",
-			"Rahukalam": "17:41-19:14",
-			"Durmuhurtam": "17:35-18:25",
-			"Varjam": "26:33-28:20"
+			"Thithi": "Ekadashi 14:46",
+			"Nakshatram": "Pushya 27:22",
+			"Rahukalam": "17:43-19:16",
+			"Durmuhurtam": "17:37-18:26",
+			"Varjam": "11:50-13:23"
 		},
 		{
-			"Thithi": "Tritiya 28:02",
-			"Nakshatram": "Revathi 15:52",
-			"Rahukalam": "08:24-09:57",
-			"Durmuhurtam": "13:27-14:16",
-			"Varjam": "None"
+			"Thithi": "Dvadashi 12:59",
+			"Nakshatram": "Aslesha 25:55",
+			"Rahukalam": "08:23-09:57",
+			"Durmuhurtam": "13:27-14:17",
+			"Varjam": "15:24-16:54"
 		},
 		{
-			"Thithi": "Chaturthi 29:41",
-			"Nakshatram": "Ashwini 18:14",
-			"Rahukalam": "16:07-17:39",
+			"Thithi": "Trayodashi 10:30",
+			"Nakshatram": "Magha 23:50",
+			"Rahukalam": "16:08-17:40",
 			"Durmuhurtam": "09:20-10:09",
-			"Varjam": "13:50-15:36"
+			"Varjam": "12:43-14:20"
 		},
 		{
-			"Thithi": "Panchami Full N",
-			"Nakshatram": "Bharani 20:15",
-			"Rahukalam": "13:01-14:34",
-			"Durmuhurtam": "12:37-13:26",
-			"Varjam": "None"
+			"Thithi": "Chaturdashi07:26, Amavasya 28:00",
+			"Nakshatram": "Purvaphalguni 21:18",
+			"Rahukalam": "13:02-14:34",
+			"Durmuhurtam": "12:37-13:27",
+			"Varjam": "07:00-08:25"
 		},
 		{
-			"Thithi": "Panchami 06:56",
-			"Nakshatram": "Krittika 21:49",
-			"Rahukalam": "14:33-16:05",
+			"Thithi": "Adhika Ashwija Shukla Prathama24:20",
+			"Nakshatram": "Uttara 18:30",
+			"Rahukalam": "14:24-16:06",
 			"Durmuhurtam": "10:59-11:48",
-			"Varjam": "09:02-10:44"
+			"Varjam": "25:53-27:17"
 		},
 		{
-			"Thithi": "Shashti 07:41",
-			"Nakshatram": "Rohini 22:52",
+			"Thithi": "Dvitiiya 20:40",
+			"Nakshatram": "Hasta 15:36",
 			"Rahukalam": "11:29-13:01",
 			"Durmuhurtam": "09:21-10:10",
-			"Varjam": "14:31-16:11"
+			"Varjam": "22:41-24:06"
 		},
 		{
-			"Thithi": "Saptami 07:50",
-			"Nakshatram": "Mrigashira 23:16",
+			"Thithi": "Tritiiya 17:09",
+			"Nakshatram": "Chitra 12:50",
 			"Rahukalam": "09:58-11:29",
-			"Durmuhurtam": "06:56-08:33",
-			"Varjam": "None"
+			"Durmuhurtam": "06:55-08:32",
+			"Varjam": "17:52-19:18"
 		},
 		{
-			"Thithi": "Ashtami 07:20, Navami 30:07",
-			"Nakshatram": "Aardra 22:59",
-			"Rahukalam": "17:33-19:04",
-			"Durmuhurtam": "17:27-18:15",
-			"Varjam": "07:34-09:09"
+			"Thithi": "Chaturthi 13:57",
+			"Nakshatram": "Swathi 10:21",
+			"Rahukalam": "17:34-19:06",
+			"Durmuhurtam": "17:28-18:17",
+			"Varjam": "15:29-16:57"
 		},
 		{
-			"Thithi": "Dashami 28:12",
-			"Nakshatram": "Punarvasu 22:01",
-			"Rahukalam": "08:28-09:58",
-			"Durmuhurtam": "13:24-14:12",
-			"Varjam": "10:30-12:02"
+			"Thithi": "Panchami 11:12",
+			"Nakshatram": "Vishaakha 08:18, Anuraadha 30:48",
+			"Rahukalam": "08:27-09:58",
+			"Durmuhurtam": "13:24-14:13, 15:50-16:38",
+			"Varjam": "12:03-13:33"
 		},
 		{
-			"Thithi": "Ekadashi 25:38",
-			"Nakshatram": "Pushya 20:23",
-			"Rahukalam": "16:00-17:30",
-			"Durmuhurtam": "09:23-10:11",
-			"Varjam": "None"
+			"Thithi": "Shashthi 09:01",
+			"Nakshatram": "Jyeshtha 29:55",
+			"Rahukalam": "16:01-17:32",
+			"Durmuhurtam": "09:22-10:11",
+			"Varjam": "12:12-13:44"
 		},
 		{
-			"Thithi": "Dwadashi 22:32",
-			"Nakshatram": "Ashlesha 18:10",
-			"Rahukalam": "12:59-14:29",
-			"Durmuhurtam": "12:35-13:23",
-			"Varjam": "08:00-09:27"
+			"Thithi": "Saptami 07:27, Ashtami 30:31",
+			"Nakshatram": "Mula 29:39",
+			"Rahukalam": "12:59-14:30",
+			"Durmuhurtam": "12:35-13:24",
+			"Varjam": "28:04-29:39"
 		},
 		{
-			"Thithi": "Trayodashi 19:01",
-			"Nakshatram": "Magha 15:31",
-			"Rahukalam": "14:28-15:58",
+			"Thithi": "Navami 30:13",
+			"Nakshatram": "Purvashadha 30:01",
+			"Rahukalam": "14:29-15:59",
 			"Durmuhurtam": "10:59-11:47",
-			"Varjam": "22:32-23:56"
+			"Varjam": "15:24-17:01"
 		},
 		{
-			"Thithi": "Chaturdashi 15:16",
-			"Nakshatram": "Purvaphalguni 12:34",
-			"Rahukalam": "11:29-12:58",
-			"Durmuhurtam": "09:24-10:11",
-			"Varjam": "18:52-20:16"
+			"Thithi": "Dashami 30:30",
+			"Nakshatram": "Uttarashadha 30:56",
+			"Rahukalam": "11:29-12:59",
+			"Durmuhurtam": "09:23-10:11",
+			"Varjam": "14:19-15:59"
 		},
 		{
-			"Thithi": "Amavasya 11:26",
-			"Nakshatram": "Uttara 09:32, Hasta 30:36",
-			"Rahukalam": "10:00-11:29",
-			"Durmuhurtam": "07:02-08:37",
-			"Varjam": "16:55-18:19"
+			"Thithi": "26 Ekadashi fullnight",
+			"Nakshatram": "Shravana full night",
+			"Rahukalam": "09:59-11:29",
+			"Durmuhurtam": "07:00-08:36",
+			"Varjam": "11:10-12:51"
 		},
 		{
-			"Thithi": "Ashwija Shukla Prathama 07:43, Dwitiya 28:19",
-			"Nakshatram": "Chitra 27:59",
-			"Rahukalam": "17:24-18:53",
-			"Durmuhurtam": "17:18-18:06",
-			"Varjam": "13:44-15:09"
+			"Thithi": "Ekadashi 07:16",
+			"Nakshatram": "Shravana 08:20",
+			"Rahukalam": "17:26-18:55",
+			"Durmuhurtam": "17:20-18:07",
+			"Varjam": "12:38-14:21"
 		},
 		{
-			"Thithi": "Tritiya 25:25",
-			"Nakshatram": "Swati 25:51",
-			"Rahukalam": "08:32-10:00",
-			"Durmuhurtam": "13:21-14:08",
-			"Varjam": "09:05-10:32"
+			"Thithi": "Dvadashi 08:29",
+			"Nakshatram": "Dhanishta 10:08",
+			"Rahukalam": "08:31-10:00",
+			"Durmuhurtam": "13:21-14:09",
+			"Varjam": "17:59-19:44"
+		},
+		{
+			"Thithi": "Trayodashi 10:03",
+			"Nakshatram": "Shatabhisha 12:18",
+			"Rahukalam": "15:55-17:23",
+			"Durmuhurtam": "09:25-10:12",
+			"Varjam": "19:21-21:07"
+		},
+		{
+			"Thithi": "Chaturdashi11:56",
+			"Nakshatram": "Purvabhadra 14:45",
+			"Rahukalam": "12:57-14:25",
+			"Durmuhurtam": "12:34-13:21",
+			"Varjam": "25:26-27:12"
 		}
 	],
 
 	"panchangam_oct": [{
-			"Thithi": "Chaturthi 23:09",
-			"Nakshatram": "Vishakha 24:22",
-			"Rahukalam": "15:53-17:22",
-			"Durmuhurtam": "09:25-10:12",
-			"Varjam": "07:06-08:36"
+			"Thithi": "Purnima 14:05",
+			"Nakshatram": "Uttarabhadra 17:27",
+			"Rahukalam": "14:25-15:53",
+			"Durmuhurtam": "10:59-11:46",
+			"Varjam": "30:54-32:41"
 		},
 		{
-			"Thithi": "Panchami 21:41",
-			"Nakshatram": "Anuradha 23:40",
-			"Rahukalam": "12:57-14:25",
-			"Durmuhurtam": "12:33-13:20",
-			"Varjam": "29:18-30:55"
+			"Thithi": "Prathama 16:26",
+			"Nakshatram": "Revati 20:21",
+			"Rahukalam": "11:29-12:56",
+			"Durmuhurtam": "09:26-10:13, 13:20-14:07",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Shashti 21:05",
-			"Nakshatram": "Jyeshta 23:49",
-			"Rahukalam": "14:24-15:52",
-			"Durmuhurtam": "11:00-11:46",
-			"Varjam": "None"
+			"Thithi": "Dvitiiya 18:57",
+			"Nakshatram": "Ashwini 23:22",
+			"Rahukalam": "10:01-11:29",
+			"Durmuhurtam": "07:07-08:40",
+			"Varjam": "18:52-20:40"
 		},
 		{
-			"Thithi": "Saptami 21:20",
-			"Nakshatram": "Mula 24:48",
-			"Rahukalam": " 11:29-12:56",
-			"Durmuhurtam": "09:26-10:13",
-			"Varjam": "23:08-24:48"
+			"Thithi": "Tritiiya 21:32",
+			"Nakshatram": "Bharani 26:26",
+			"Rahukalam": "17:17-18:44",
+			"Durmuhurtam": "17:11-17:58",
+			"Varjam": "10:12-12:00"
 		},
 		{
-			"Thithi": "Ashtami 22:24",
-			"Nakshatram": "Purvashada 26:33",
-			"Rahukalam": "10:02-11:29",
-			"Durmuhurtam": "07:08-08:40",
-			"Varjam": "11:06-12:49"
+			"Thithi": "Chaturthi 24:02",
+			"Nakshatram": "Krittika 29:24",
+			"Rahukalam": "08:35-10:02",
+			"Durmuhurtam": "13:19-14:05",
+			"Varjam": "15:55-17:43"
 		},
 		{
-			"Thithi": "Navami 24:07",
-			"Nakshatram": "Uttarashada 28:55",
-			"Rahukalam": "17:16-18:42",
-			"Durmuhurtam": "17:10-17:56",
-			"Varjam": "11:21-13:06"
-		},
-		{
-			"Thithi": "Dashami 26:20",
-			"Nakshatram": "Shravana Full Night",
-			"Rahukalam": "08:36-10:02",
-			"Durmuhurtam": "13:18-14:04",
-			"Varjam": "09:23-11:10"
-		},
-		{
-			"Thithi": "Ekadashi 28:48",
-			"Nakshatram": "Shravana 07:42",
-			"Rahukalam": "15:47-17:13",
+			"Thithi": "Panchami 26:17",
+			"Nakshatram": "Rohini full night",
+			"Rahukalam": "15:48-17:15",
 			"Durmuhurtam": "09:28-10:14",
-			"Varjam": "12:12-14:00"
+			"Varjam": "23:12-24:58"
 		},
 		{
-			"Thithi": "Dwadashi Full N",
-			"Nakshatram": "Dhanishta 10:42",
-			"Rahukalam": "12:55-14:20",
-			"Durmuhurtam": "12:32-13:17",
-			"Varjam": "18:48-20:37"
+			"Thithi": "Shashthi 28:06",
+			"Nakshatram": "Rohini 08:06",
+			"Rahukalam": "12:55-14:21",
+			"Durmuhurtam": "12:32-13:18",
+			"Varjam": "14:13-15:58"
 		},
 		{
-			"Thithi": "Dwadashi 07:21",
-			"Nakshatram": "Sathabhisha 13:44",
-			"Rahukalam": "14:20-15:45",
-			"Durmuhurtam": "11:00-11:46",
-			"Varjam": "20:55-22:42"
+			"Thithi": "Saptami 29:19",
+			"Nakshatram": "Mrigashirsha 10:20",
+			"Rahukalam": "14:21-15:47",
+			"Durmuhurtam": "11:21-15:47",
+			"Varjam": "19:18-21:00"
 		},
 		{
-			"Thithi": "Trayodashi 09:50",
-			"Nakshatram": "Purvabhadra 16:39",
+			"Thithi": "Ashtami 29:46",
+			"Nakshatram": "Aardra 11:57",
 			"Rahukalam": "11:29-12:54",
 			"Durmuhurtam": "09:29-10:15",
-			"Varjam": "27:21-29:08"
+			"Varjam": "24:22-26:02"
 		},
 		{
-			"Thithi": "Chaturdashi 12:06",
-			"Nakshatram": "Uttarabhadra 19:23",
-			"Rahukalam": "10:04-11:29",
-			"Durmuhurtam": "07:14-08:45",
-			"Varjam": "None"
+			"Thithi": "Navami 29:23",
+			"Nakshatram": "Punarvasu 12:48",
+			"Rahukalam": "10:03-11:29",
+			"Durmuhurtam": "07:13-08:44",
+			"Varjam": "20:48-22:24"
 		},
 		{
-			"Thithi": "Purnima 14:07",
-			"Nakshatram": "Revathi 21:50",
-			"Rahukalam": "17:08-18:32",
-			"Durmuhurtam": "17:02-17:47",
-			"Varjam": "08:36-10:22"
+			"Thithi": "Dashami 28:09",
+			"Nakshatram": "Pushya 12:49",
+			"Rahukalam": "17:09-18:34",
+			"Durmuhurtam": "17:03-17:49",
+			"Varjam": "25:10-26:43"
 		},
 		{
-			"Thithi": "Prathama 15:50",
-			"Nakshatram": "Ashwini 24:00",
-			"Rahukalam": "08:40-10:05",
+			"Thithi": "Ekadashi 26:06",
+			"Nakshatram": "Aslesha 11:59",
+			"Rahukalam": "08:39-10:04",
 			"Durmuhurtam": "13:16-14:01",
-			"Varjam": "19:38-21:23"
+			"Varjam": "23:12-24:42"
 		},
 		{
-			"Thithi": "Dwitiya 17:14",
-			"Nakshatram": "Bharani 25:51",
-			"Rahukalam": "15:41-17:05",
+			"Thithi": "Dvadashi 23:21",
+			"Nakshatram": "Magha 10:24",
+			"Rahukalam": "15:42-17:07",
 			"Durmuhurtam": "09:31-10:16",
-			"Varjam": "10:21-12:04"
+			"Varjam": "17:40-19:07"
 		},
 		{
-			"Thithi": "Tritiya 18:18",
-			"Nakshatram": "Krittika 27:22",
+			"Thithi": "Trayodashi 20:03",
+			"Nakshatram": "Purvaphalguni 08:11, Uttara  29:28",
 			"Rahukalam": "12:53-14:17",
-			"Durmuhurtam": "12:31-13:15",
-			"Varjam": "14:36-16:18"
+			"Durmuhurtam": "12:31-13:16",
+			"Varjam": "14:34-15:59"
 		},
 		{
-			"Thithi": "Chaturthi 18:58",
-			"Nakshatram": "Rohini 28:29",
-			"Rahukalam": "14:16-15:40",
+			"Thithi": "Chaturdashi16:22",
+			"Nakshatram": "Hasta 26:28",
+			"Rahukalam": "14:17-15:41",
 			"Durmuhurtam": "11:01-11:46",
-			"Varjam": "20:06-21:47"
+			"Varjam": "12:49-14:13"
 		},
 		{
-			"Thithi": "Panchami 19:13",
-			"Nakshatram": "Mrigashira 29:10",
-			"Rahukalam": "11:29-12:52",
-			"Durmuhurtam": "09:33-10:17",
-			"Varjam": "10:15-11:53"
+			"Thithi": "Amavasya 12:30",
+			"Nakshatram": "Chitra 23:21",
+			"Rahukalam": "11:29-12:53",
+			"Durmuhurtam": "09:32-10:17",
+			"Varjam": "09:26-10:49"
 		},
 		{
-			"Thithi": "Shashti 19:00",
-			"Nakshatram": "Ardra 29:22",
+			"Thithi": "Nija Ashwija Prathama 08:38, Dvitiiya 28:57",
+			"Nakshatram": "Swathi 20:21",
 			"Rahukalam": "10:06-11:29",
-			"Durmuhurtam": "07:20-08:49",
-			"Varjam": "13:38-15:15"
+			"Durmuhurtam": "07:19-08:48",
+			"Varjam": "25:19-26:44"
 		},
 		{
-			"Thithi": "Saptami 18:14",
-			"Nakshatram": "Punarvasu 29:02",
-			"Rahukalam": "17:00-18:23",
-			"Durmuhurtam": "16:55-17:39",
-			"Varjam": "17:12-18:47"
+			"Thithi": "Tritiiya 25:38",
+			"Nakshatram": "Vishaakha 17:38",
+			"Rahukalam": "17:01-18:25",
+			"Durmuhurtam": "16:56-17:40",
+			"Varjam": "21:15-22:42"
 		},
 		{
-			"Thithi": "Ashtami 16:55",
-			"Nakshatram": "Pushya 28:08",
-			"Rahukalam": "08:45-10:07",
+			"Thithi": "Chaturthi 22:49",
+			"Nakshatram": "Anuraadha 15:22",
+			"Rahukalam": "08:44-10:07",
 			"Durmuhurtam": "13:14-13:58",
-			"Varjam": "12:44-14:17"
+			"Varjam": "20:35-22:04"
 		},
 		{
-			"Thithi": "Navami 15:02",
-			"Nakshatram": "Ashlesha 26:43",
-			"Rahukalam": "15:36-16:58",
-			"Durmuhurtam": "09:35-10:19",
-			"Varjam": "16:11-17:41"
+			"Thithi": "Panchami 20:37",
+			"Nakshatram": "Jyeshtha 13:42 RK ",
+			"Rahukalam": "15:37-16:59",
+			"Durmuhurtam": "09:34-10:18, 23:34-24:26",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Dashami 12:39",
-			"Nakshatram": "Magha 24:48",
+			"Thithi": "Shashthi 19:09",
+			"Nakshatram": "Mula 12:43",
 			"Rahukalam": "12:52-14:14",
-			"Durmuhurtam": "12:30-13:13",
-			"Varjam": "13:45-15:14"
+			"Durmuhurtam": "12:30-13:14",
+			"Varjam": "11:11-12:43"
 		},
 		{
-			"Thithi": "Ekadashi 09:48, Dwadashi 30:38",
-			"Nakshatram": "Purvaphalguni 22:30",
-			"Rahukalam": "14:13-15:35",
+			"Thithi": "Saptami 18:27",
+			"Nakshatram": "Purvashadha 22:28",
+			"Rahukalam": "14:14-15:36",
 			"Durmuhurtam": "11:03-11:46",
-			"Varjam": "08:02-09:29"
+			"Varjam": "20:38-22:16"
 		},
 		{
-			"Thithi": "Trayodashi 27:16",
-			"Nakshatram": "Uttara 19:57",
-			"Rahukalam": "11:30-12:51",
-			"Durmuhurtam": "09:36-10:20",
-			"Varjam": "27:26-28:51"
+			"Thithi": "Ashtami 18:29",
+			"Nakshatram": "Uttarashadha 12:58",
+			"Rahukalam": "11:30-12:52",
+			"Durmuhurtam": "09:36-10:19",
+			"Varjam": "17:09-18:50"
 		},
 		{
-			"Thithi": "Chaturdashi 23:53",
-			"Nakshatram": "Hasta 17:19",
+			"Thithi": "Navami 19:12",
+			"Nakshatram": "Shravana 14:08",
 			"Rahukalam": "10:09-11:30",
-			"Durmuhurtam": "07:27-08:54",
-			"Varjam": "24:28:25:54"
+			"Durmuhurtam": "07:26-08:53",
+			"Varjam": "18:25-20:08"
 		},
 		{
-			"Thithi": "Amavasya 20:38",
-			"Nakshatram": "Chitra 14:46",
-			"Rahukalam": "16:53-18:14",
-			"Durmuhurtam": "16:48-17:31",
-			"Varjam": "19:51-21:17"
+			"Thithi": "Dashami 20:30",
+			"Nakshatram": "Dhanishta 15:53",
+			"Rahukalam": "16:55-18:16",
+			"Durmuhurtam": "16:49-17:32",
+			"Varjam": "23:45-25:30"
 		},
 		{
-			"Thithi": "Karthika Shukla, Prathama 17:43",
-			"Nakshatram": "Swathi 12:30",
-			"Rahukalam": "08:50-10:10",
-			"Durmuhurtam": "13:13-13:56, 15:21-16:04",
-			"Varjam": "17:41-19:09"
+			"Thithi": "26 Ekadashi 22:16",
+			"Nakshatram": "Shatabhisha 18:06",
+			"Rahukalam": "08:49-10:10",
+			"Durmuhurtam": "13:13-13:56",
+			"Varjam": "25:12-26:58"
 		},
 		{
-			"Thithi": "Dwitiya 15:17",
-			"Nakshatram": "Vishakha 10:41",
-			"Rahukalam": "15:31-16:52",
-			"Durmuhurtam": "09:39-10:21",
-			"Varjam": "14:29-16:00"
+			"Thithi": "Dvadashi 24:24",
+			"Nakshatram": "Purvabhadra 20:41",
+			"Rahukalam": "15:32- 16:53",
+			"Durmuhurtam": "09:38-10:21",
+			"Varjam": "31:25-33:12"
 		},
 		{
-			"Thithi": "Tritiya 13:31",
-			"Nakshatram": "Anuradha 09:29",
+			"Thithi": "Trayodashi 26:45",
+			"Nakshatram": "Uttarabhadra 23:30",
 			"Rahukalam": "12:51-14:11",
-			"Durmuhurtam": "12:30-13:12",
-			"Varjam": "14:58-16:33"
+			"Durmuhurtam": "12:30-13:13",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Chaturthi 12:31",
-			"Nakshatram": "Jyeshta 09:01",
-			"Rahukalam": "14:11-15:30",
-			"Durmuhurtam": "11:05-11:47",
-			"Varjam": "None"
+			"Thithi": "Chaturdashi29:15",
+			"Nakshatram": "Revati 26:27",
+			"Rahukalam": "14:11-15:31",
+			"Durmuhurtam": "11:04-11:47",
+			"Varjam": "12:58-14:46"
+		},
+		{
+			"Thithi": "Purnima full night",
+			"Nakshatram": "Ashwini 29:28",
+			"Rahukalam": "11:31-12:51",
+			"Durmuhurtam": "09:40-10:22",
+			"Varjam": "24:58-26:46"
+		},
+		{
+			"Thithi": "Purnima 07:49",
+			"Nakshatram": "Bharani full night",
+			"Rahukalam": "10:12-11:32",
+			"Durmuhurtam": "07:33-08:58",
+			"Varjam": "16:15-18:03"
 		}
 	],
 
 	"panchangam_nov": [{
-			"Thithi": "Panchami 12:21",
-			"Nakshatram": "Mula 09:22",
-			"Rahukalam": "11:32-12:51",
-			"Durmuhurtam": "09:40-10:23",
-			"Varjam": "07:44-09:22"
+			"Thithi": "Prathama 09:20",
+			"Nakshatram": "Bharani 07:27",
+			"Rahukalam": "15:49-17:08",
+			"Durmuhurtam": "15:43-16:26",
+			"Varjam": "20:53-22:41"
 		},
 		{
-			"Thithi": "Shashti 13:01",
-			"Nakshatram": "Purvashada 10:31",
-			"Rahukalam": "10:13-11:32",
-			"Durmuhurtam": "07:34-08:59",
-			"Varjam": "19:09-20:53"
-		},
-		{
-			"Thithi": "Saptami 13:26",
-			"Nakshatram": "Uttarashada 11:25",
-			"Rahukalam": "15:48-17:06",
-			"Durmuhurtam": "15:42-16:24",
-			"Varjam": "15:49-17:35"
-		},
-		{
-			"Thithi": "Ashtami 15:27",
-			"Nakshatram": "Shravana 13:53",
-			"Rahukalam": "07:55-09:14",
+			"Thithi": "Dvitiiya 11:44",
+			"Nakshatram": "Krittika 10:20",
+			"Rahukalam": "07:54-09:13",
 			"Durmuhurtam": "12:12-12:54",
-			"Varjam": "18:22-20:09"
+			"Varjam": "28:06-29:53"
 		},
 		{
-			"Thithi": "Navami 17:51",
-			"Nakshatram": "Dhanishta 16:45",
-			"Rahukalam": "14:28-15:46",
-			"Durmuhurtam": "08:43-09:25",
-			"Varjam": "24:51-26:39"
+			"Thithi": "Tritiiya 13:54",
+			"Nakshatram": "Rohini 13:00",
+			"Rahukalam": "14:28-15:47",
+			"Durmuhurtam": "08:42-09:24",
+			"Varjam": "19:09-20:54"
 		},
 		{
-			"Thithi": "Dashami 20:24",
-			"Nakshatram": "Satabhisha 19:45",
+			"Thithi": "Chaturthi 15:44",
+			"Nakshatram": "Mrigashirsha 15:21",
 			"Rahukalam": "11:51-13:09",
 			"Durmuhurtam": "11:30-12:12",
-			"Varjam": "26:56-28:44"
+			"Varjam": "24:25-26:08"
 		},
 		{
-			"Thithi": "Ekadashi 22:54",
-			"Nakshatram": "Purvabhadra 22:42",
-			"Rahukalam": "13:09:14:27",
-			"Durmuhurtam": "10:07-10:49",
-			"Varjam": "None"
+			"Thithi": "Panchami 17:06",
+			"Nakshatram": "Aardra 17:15",
+			"Rahukalam": "13:09-14:27",
+			"Durmuhurtam": "10:07-10:48",
+			"Varjam": "29:55-31:36"
 		},
 		{
-			"Thithi": "Dwadashi 25:09",
-			"Nakshatram": "Uttarabhadra 25:26",
-			"Rahukalam": "10:34-11:51",
-			"Durmuhurtam": "08:45-09:26",
-			"Varjam": "09:24-11:10"
+			"Thithi": "Shashthi 17:53",
+			"Nakshatram": "Punarvasu 18:35",
+			"Rahukalam": "10:33-11:51",
+			"Durmuhurtam": "08:44-09:26",
+			"Varjam": "26:48-28:27"
 		},
 		{
-			"Thithi": "Trayodashi 27:03",
-			"Nakshatram": "Revathi 27:48",
-			"Rahukalam": "09:16-10:34",
-			"Durmuhurtam": "06:42-08:04",
-			"Varjam": "14:37-16:23"
+			"Thithi": "Saptami 17:59",
+			"Nakshatram": "Pushya 19:15",
+			"Rahukalam": "09:16-10:33",
+			"Durmuhurtam": "06:40-08:03",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Chaturdashi 28:31",
-			"Nakshatram": "Ashwini 29:47",
-			"Rahukalam": "15:43-17:00",
-			"Durmuhurtam": "15:38-16:19",
-			"Varjam": "25:27-27:11"
+			"Thithi": "Ashtami 17:21",
+			"Nakshatram": "Aslesha 19:12",
+			"Rahukalam": "15:44-17:01",
+			"Durmuhurtam": "15:38-16:20",
+			"Varjam": "08:02-09:38"
 		},
 		{
-			"Thithi": "Purnima 29:34",
-			"Nakshatram": "Bharani Full Night",
-			"Rahukalam": "08:01-09:18",
-			"Durmuhurtam": "12:12-12:53",
-			"Varjam": "16:01-17:43"
+			"Thithi": "Navami 15:58",
+			"Nakshatram": "Magha 18:26",
+			"Rahukalam": "08:00-09:17",
+			"Durmuhurtam": "12:12-12:53, 14:15-14:57",
+			"Varjam": "06:49-08:22"
 		},
 		{
-			"Thithi": "Prathama 30:11",
-			"Nakshatram": "Bharani 07:21",
+			"Thithi": "Dashami 13:52",
+			"Nakshatram": "Purvaphalguni 16:58",
 			"Rahukalam": "14:25-15:42",
-			"Durmuhurtam": "08:48-09:28",
-			"Varjam": "19:56-21:36"
+			"Durmuhurtam": "08:47-09:28, 22:29-23:24",
+			"Varjam": "23:33-25:01"
 		},
 		{
-			"Thithi": "Dwitiya 30:24",
-			"Nakshatram": "Krittika 08:31",
+			"Thithi": "Ekadashi 11:11",
+			"Nakshatram": "Uttara  14:55",
 			"Rahukalam": "11:52-13:08",
 			"Durmuhurtam": "11:31-12:12",
-			"Varjam": "25:02-26:41"
+			"Varjam": "22:26-23:52"
 		},
 		{
-			"Thithi": "Tritiya 30:17",
-			"Nakshatram": "Rohini 09:17",
-			"Rahukalam": "13:08-14:24",
-			"Durmuhurtam": "10:10-10:51",
-			"Varjam": "14:59-16:37"
+			"Thithi": "Dvadashi 08:00, Trayodashi 28:29",
+			"Nakshatram": "Hasta 12:24",
+			"Rahukalam": "13:08-14:25",
+			"Durmuhurtam": "10:10-10:50, 14:14-14:55",
+			"Varjam": "19:28-20:53"
 		},
 		{
-			"Thithi": "Chaturthi 29:44",
-			"Nakshatram": "Mrigashira 09:42",
+			"Thithi": "Chaturdashi24:48",
+			"Nakshatram": "Chitra 09:35, Swathi 30:39",
 			"Rahukalam": "10:36-11:52",
-			"Durmuhurtam": "08:50-09:30",
-			"Varjam": "18:07-19:43"
+			"Durmuhurtam": "08:49-09:29",
+			"Varjam": "14:30-15:55"
 		},
 		{
-			"Thithi": "Panchami 28:52",
-			"Nakshatram": "Aardra 09:46",
-			"Rahukalam": "09:21-10:36",
-			"Durmuhurtam": "06:49-08:10",
-			"Varjam": "21:37-23:12"
+			"Thithi": "Amavasya 21:07",
+			"Nakshatram": "Vishaakha 27:46",
+			"Rahukalam": "09:20-10:36",
+			"Durmuhurtam": "06:48-08:09",
+			"Varjam": "11:34-12:59"
 		},
 		{
-			"Thithi": "Shashti 27:39",
-			"Nakshatram": "Punarvasu 09:29",
-			"Rahukalam": "15:39-16:55",
-			"Durmuhurtam": "15:34-16:14",
-			"Varjam": "17:16-18:49"
+			"Thithi": "Karthika Shukla Prathama 17:36",
+			"Nakshatram": "Anuraadha 25:06",
+			"Rahukalam": "15:40-16:55",
+			"Durmuhurtam": "15:35-16:15",
+			"Varjam": "07:19-08:44"
 		},
 		{
-			"Thithi": "Saptami 26:05",
-			"Nakshatram": "Pushya 08:51",
-			"Rahukalam": "08:07-09:22",
-			"Durmuhurtam": "12:13-12:53",
-			"Varjam": "21:08-22:40"
+			"Thithi": "Dvitiiya 14:27",
+			"Nakshatram": "Jyeshtha 22:51",
+			"Rahukalam": "08:06-09:21",
+			"Durmuhurtam": "12:13-12:53, 14:14-14:54",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Ashtami 24:11",
-			"Nakshatram": "Ashlesha 07:52, Magha 30:34",
-			"Rahukalam": "14:23-15:38",
-			"Durmuhurtam": "08:52-09:33, 22:29-23:25",
-			"Varjam": "19:13-20:44"
+			"Thithi": "Tritiiya 11:47",
+			"Nakshatram": "Mula 21:10",
+			"Rahukalam": "14:23-15:39",
+			"Durmuhurtam": "08:52-09:32",
+			"Varjam": "19:40-21:10"
 		},
 		{
-			"Thithi": "Navami 21:58",
-			"Nakshatram": "Purvaphalguni 28:59",
+			"Thithi": "Chaturthi 09:46",
+			"Nakshatram": "Purvashadha 20:08",
 			"Rahukalam": "11:53-13:08",
 			"Durmuhurtam": "11:33-12:13",
-			"Varjam": "14:03-15:32"
+			"Varjam": "28:03-29:38"
 		},
 		{
-			"Thithi": "Dashami 19:31",
-			"Nakshatram": "Uttara 27:11",
+			"Thithi": "Panchami 08:29",
+			"Nakshatram": "Uttarashadha 19:52",
 			"Rahukalam": "13:08-14:23",
-			"Durmuhurtam": "10:14-10:54",
-			"Varjam": "11:39-13:07"
+			"Durmuhurtam": "10:13-10:53",
+			"Varjam": "23:57-25:36"
 		},
 		{
-			"Thithi": "Ekadashi 16:54",
-			"Nakshatram": "Hasta 25:14",
-			"Rahukalam": "10:39-11:54",
-			"Durmuhurtam": "08:55-09:34",
-			"Varjam": "10:54-12:22"
+			"Thithi": "Shashthi 08:00",
+			"Nakshatram": "Shravana 20:23",
+			"Rahukalam": "10:38-11:53",
+			"Durmuhurtam": "08:54-09:34",
+			"Varjam": "24:36-26:17"
 		},
 		{
-			"Thithi": "Dwadashi 14:13",
-			"Nakshatram": "Chitra 23:17",
-			"Rahukalam": "09:25-10:39",
-			"Durmuhurtam": "06:56-08:16",
-			"Varjam": "08:35-10:04"
+			"Thithi": "Saptami 08:18",
+			"Nakshatram": "Dhanishta 21:39",
+			"Rahukalam": "09:24-10:39",
+			"Durmuhurtam": "06:55-08:15",
+			"Varjam": "29:26-31:09"
 		},
 		{
-			"Thithi": "Trayodashi 11:35",
-			"Nakshatram": "Swathi 21:27",
+			"Thithi": "Ashtami 09:21",
+			"Nakshatram": "Shatabhisha 23:35",
 			"Rahukalam": "15:37-16:51",
-			"Durmuhurtam": "15:32-16:11",
-			"Varjam": "26:41-28:11"
+			"Durmuhurtam": "15:32-16:12",
+			"Varjam": "30:38-32:24"
 		},
 		{
-			"Thithi": "Chaturdashi 09:10",
-			"Nakshatram": "Vishakha 19:52",
-			"Rahukalam": "08:12-09:26",
-			"Durmuhurtam": "12:14-12:54",
-			"Varjam": "23:41-25:12"
+			"Thithi": "Navami 11:02",
+			"Nakshatram": "Purvabhadra 26:02",
+			"Rahukalam": "08:11-09:26",
+			"Durmuhurtam": "12:14-12:53, 14:13-14:52",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Amavasya 07:05, Prathama 29:29",
-			"Nakshatram": "Anuradha 18:42",
-			"Rahukalam": "14:22-15:36",
-			"Durmuhurtam": "08:58-09:37, 22:30-23:27",
-			"Varjam": "24:09-25:42"
+			"Thithi": "Dashami 13:12",
+			"Nakshatram": "Uttarabhadra 28:50",
+			"Rahukalam": "14:22-15:37",
+			"Durmuhurtam": "08:57-09:36",
+			"Varjam": "12:45-14:32"
 		},
 		{
-			"Thithi": "Dwitiya 28:28",
-			"Nakshatram": "Jyeshta 18:04",
+			"Thithi": "Ekadashi 15:40",
+			"Nakshatram": "Revati full night",
 			"Rahukalam": "11:55-13:09",
-			"Durmuhurtam": "11:35-12:15",
-			"Varjam": "None"
+			"Durmuhurtam": "11:35-12:14",
+			"Varjam": "18:20-20:08"
 		},
 		{
-			"Thithi": "Tritiya 28:09",
-			"Nakshatram": "Mula 18:03",
+			"Thithi": "26 Dvadashi 18:16",
+			"Nakshatram": "Revati 07:50",
 			"Rahukalam": "13:09-14:22",
-			"Durmuhurtam": "10:17-10:57",
-			"Varjam": "16:27-18:03"
+			"Durmuhurtam": "10:17-10:56",
+			"Varjam": "30:22-32-10"
 		},
 		{
-			"Thithi": "Chaturthi 28:34",
-			"Nakshatram": "Purvashada 18:45",
-			"Rahukalam": "10:42-11:56",
-			"Durmuhurtam": "09:00-09:39",
-			"Varjam": "27:14-28:55"
+			"Thithi": "Trayodashi 20:51",
+			"Nakshatram": "Ashwini 10:53",
+			"Rahukalam": "10:42-11:55",
+			"Durmuhurtam": "08:59-09:38",
+			"Varjam": "21:39-23:27"
 		},
 		{
-			"Thithi": "Panchami 29:43",
-			"Nakshatram": "Uttarashada 20:10",
-			"Rahukalam": "09:30-10:43",
-			"Durmuhurtam": "07:03-08:21",
-			"Varjam": "24:30-26:15"
+			"Thithi": "Chaturdashi23:17",
+			"Nakshatram": "Bharani 13:49",
+			"Rahukalam": "09:29-10:42",
+			"Durmuhurtam": "07:02-8:20",
+			"Varjam": "27:11-28:58"
+		},
+		{
+			"Thithi": "Purnima 25:29",
+			"Nakshatram": "Krittika 16:33",
+			"Rahukalam": "15:36-16:49",
+			"Durmuhurtam": "15:31-16:10",
+			"Varjam": ""
+		},
+		{
+			"Thithi": "Prathama 27:22",
+			"Nakshatram": "Rohini 19:01",
+			"Rahukalam": "08:17-09:30",
+			"Durmuhurtam": "12:16-12:55",
+			"Varjam": "10:11-11:57"
 		}
 	],
 
 	"panchangam_dec": [{
-			"Thithi": "Shashti Full N",
-			"Nakshatram": "Shravana 22:13",
-			"Rahukalam": "15:36-16:49",
-			"Durmuhurtam": "15:31-16:10",
-			"Varjam": "26:38-28:25"
-		},
-		{
-			"Thithi": "Shashti 07:29",
-			"Nakshatram": "Dhanishta 24:46",
-			"Rahukalam": "08:18-09:31",
-			"Durmuhurtam": "12:16-12:55",
-			"Varjam": "None"
-		},
-		{
-			"Thithi": "Saptami 09:44",
-			"Nakshatram": "Satabhisha 27:40",
+			"Thithi": "Dwitiya 28:52",
+			"Nakshatram": "Mrigashira 21:08",
 			"Rahukalam": "14:23-15:36",
-			"Durmuhurtam": "09:03-09:41",
-			"Varjam": "08:50-10:38"
+			"Durmuhurtam": "09:02-09:41",
+			"Varjam": "30:08-31:51"
 		},
 		{
-			"Thithi": "Ashtami 12:14",
-			"Nakshatram": "Purvabhadra 30:37",
-			"Rahukalam": "11:58-13:10",
+			"Thithi": "Tritiya 29:57",
+			"Nakshatram": "Aardra 22:51",
+			"Rahukalam": "11:57-13:10",
 			"Durmuhurtam": "11:38-12:17",
-			"Varjam": "10:51-12:38"
-		},
-		{
-			"Thithi": "Navami 14:45",
-			"Nakshatram": "Uttarabhadra Full Night",
-			"Rahukalam": "13:11-14:23",
-			"Durmuhurtam": "10:21-11:00",
-			"Varjam": "17:21-19:09"
-		},
-		{
-			"Thithi": "Dashami 17:04",
-			"Nakshatram": "Uttarabhadra 09:27",
-			"Rahukalam": "10:46-11:59",
-			"Durmuhurtam": "09:05-09:43",
-			"Varjam": "22:42-24:28"
-		},
-		{
-			"Thithi": "Ekadashi 18:59",
-			"Nakshatram": "Revathi 11:58",
-			"Rahukalam": "09:34-10:47",
-			"Durmuhurtam": "07:10-08:27",
 			"Varjam": "None"
 		},
 		{
-			"Thithi": "Dwadashi 20:23",
-			"Nakshatram": "Ashwini 14:00",
+			"Thithi": "Chaturthi 30:33",
+			"Nakshatram": "Punarvasu 24:09",
+			"Rahukalam": "13:10-14:23",
+			"Durmuhurtam": "10:21-10:59",
+			"Varjam": "11:30-13:11"
+		},
+		{
+			"Thithi": "Panchami 30:40",
+			"Nakshatram": "Pushya 24:58",
+			"Rahukalam": "10:45-11:58",
+			"Durmuhurtam": "09:04-09:43",
+			"Varjam": "08:25-10:04"
+		},
+		{
+			"Thithi": "Shashthi 30:15",
+			"Nakshatram": "Aslesha 25:16",
+			"Rahukalam": "09:34-10:46",
+			"Durmuhurtam": "07:09-08:26",
+			"Varjam": "13:55-15:32"
+		},
+		{
+			"Thithi": "Saptami 29:17",
+			"Nakshatram": "Magha 25:02",
 			"Rahukalam": "15:36-16:48",
-			"Durmuhurtam": " 24:12-25:54",
-			"Varjam": "09:40-11:24"
+			"Durmuhurtam": "15:31-16:10",
+			"Varjam": "13:09-14:44"
 		},
 		{
-			"Thithi": "Trayodashi 21",
-			"Nakshatram": "Bharani 15:30",
-			"Rahukalam": "08:23-09:36",
-			"Durmuhurtam": "12:19-12:58",
-			"Varjam": "27:59-29:38"
+			"Thithi": "Ashtami 27:47",
+			"Nakshatram": "Purvaphalguni 24:17",
+			"Rahukalam": "08:23-09:35",
+			"Durmuhurtam": "12:19-12:57, 14:14-14:53",
+			"Varjam": "08:47-10:20"
 		},
 		{
-			"Thithi": "Chaturdashi 21:29",
-			"Nakshatram": "Krittika 16:27",
+			"Thithi": "Navami 25:47",
+			"Nakshatram": "Uttara  23:02",
 			"Rahukalam": "14:24-15:36",
-			"Durmuhurtam": "09:07-09:46",
-			"Varjam": "None"
+			"Durmuhurtam": "09:07-09:45",
+			"Varjam": "30:51-32:20"
 		},
 		{
-			"Thithi": "Purnima 21:12",
-			"Nakshatram": "Rohini 16:52",
-			"Rahukalam": "12:01-13:13",
-			"Durmuhurtam": " 08:44-10:21",
-			"Varjam": "08:44-10:21"
+			"Thithi": "Dashami 23:21",
+			"Nakshatram": "Hasta 21:21",
+			"Rahukalam": "12:00-13:12",
+			"Durmuhurtam": "11:41-12:19",
+			"Varjam": "28:40-30:08"
 		},
 		{
-			"Thithi": "Prathama 20:26",
-			"Nakshatram": "Mrigashira 16:48",
+			"Thithi": "Ekadashi 20:34",
+			"Nakshatram": "Chitra 19:18",
 			"Rahukalam": "13:13-14:25",
-			"Durmuhurtam": "10:25-11:04",
-			"Varjam": "25:02-26:37"
+			"Durmuhurtam": "10:25-11:03",
+			"Varjam": "24:22-25:49"
 		},
 		{
-			"Thithi": "Dwitiya 19:17",
-			"Nakshatram": "Aardra 16:20",
-			"Rahukalam": "10:50-12:02",
-			"Durmuhurtam": "09:09-09:48",
-			"Varjam": "27:57-29:30"
+			"Thithi": "Dvadashi 17:32",
+			"Nakshatram": "Swathi 17:00",
+			"Rahukalam": "10:49-12:01",
+			"Durmuhurtam": "09:09-09:47",
+			"Varjam": "22:02-23:28"
 		},
 		{
-			"Thithi": "Tritiya 17:48",
-			"Nakshatram": "Punarvasu 15:33",
-			"Rahukalam": "09:39-10:50",
-			"Durmuhurtam": "07:15-08:32",
-			"Varjam": "23:12-24:44"
+			"Thithi": "Trayodashi 14:23",
+			"Nakshatram": "Vishaakha 14:34",
+			"Rahukalam": "09:38-10:50",
+			"Durmuhurtam": "07:14-08:31",
+			"Varjam": "18:10-19:37"
 		},
 		{
-			"Thithi": "Chaturthi 16:04",
-			"Nakshatram": "Pushya 14:30",
-			"Rahukalam": "15:38-16:50",
+			"Thithi": "Chaturdashi11:14",
+			"Nakshatram": "Anuraadha 12:10",
+			"Rahukalam": "15:37-16:49",
 			"Durmuhurtam": "15:33-16:11",
-			"Varjam": "26:39-28:10"
+			"Varjam": "17:15-18:42"
 		},
 		{
-			"Thithi": "Panchami 14:09",
-			"Nakshatram": "Ashlesha 13:17",
-			"Rahukalam": "08:28-09:40",
-			"Durmuhurtam": "12:22-13:01",
-			"Varjam": "24:36-26:07"
+			"Thithi": "Amavasya 08:16, Margasira Shukla Prathama 29:36",
+			"Nakshatram": "Jyeshtha 09:56",
+			"Rahukalam": "08:27-09:39",
+			"Durmuhurtam": "12:22-13:00, 14:17-14:55",
+			"Varjam": "08:47-10:20"
 		},
 		{
-			"Thithi": "Shashti 12:07",
-			"Nakshatram": "Magha 11:56",
-			"Rahukalam": "14:27-15:39",
-			"Durmuhurtam": "09:12-09:50",
-			"Varjam": "19:27-20:58"
+			"Thithi": "Dvitiiya 27:24",
+			"Nakshatram": "Mula 08:01, Purvashadha 30:34",
+			"Rahukalam": "14:26-15:38",
+			"Durmuhurtam": "09:11-09:49",
+			"Varjam": "17:02-18:32"
 		},
 		{
-			"Thithi": "Saptami 10:00",
-			"Nakshatram": "Purvaphalguni 10:30",
-			"Rahukalam": "12:04-13:16",
-			"Durmuhurtam": "11:45-12:23",
-			"Varjam": "17:16-18:47"
+			"Thithi": "Tritiiya 25:47",
+			"Nakshatram": "Uttarashadha 29:43",
+			"Rahukalam": "12:04-13:15",
+			"Durmuhurtam": "11:44-12:23",
+			"Varjam": "14:17-15:49"
 		},
 		{
-			"Thithi": "Ashtami 07:53, Navami 29:46",
-			"Nakshatram": "Uttara 09:04",
-			"Rahukalam": "13:16-14:28",
-			"Durmuhurtam": "10:29-11:07, 14:18-14:57",
-			"Varjam": "16:58-18:28"
+			"Thithi": "Chaturthi 24:53",
+			"Nakshatram": "Shravana 29:34",
+			"Rahukalam": "13:16-14:27",
+			"Durmuhurtam": "10:29-11:07, 14:18-14:56",
+			"Varjam": "09:41-11:17"
 		},
 		{
-			"Thithi": "Dashami 27:45",
-			"Nakshatram": "Hasta 07:39, Chitra 30:19",
-			"Rahukalam": "10:54-12:05",
-			"Durmuhurtam": "09:13-09:52, 12:24-13:02",
-			"Varjam": "15:12-16:43"
+			"Thithi": "Panchami 24:44",
+			"Nakshatram": "Dhanishta 30:10",
+			"Rahukalam": "10:53-12:05",
+			"Durmuhurtam": "09:13-09:51",
+			"Varjam": "09:40-11:18"
 		},
 		{
-			"Thithi": "Ekadashi 25:52",
-			"Nakshatram": "Swathi 29:08",
-			"Rahukalam": "09:43-10:54",
-			"Durmuhurtam": "07:19-08:36",
-			"Varjam": "11:38-13:09"
+			"Thithi": "Shashthi 25:22",
+			"Nakshatram": "Shatabhisha full night",
+			"Rahukalam": "09:42-10:54",
+			"Durmuhurtam": "07:19-08:35",
+			"Varjam": "13:46-15:28"
 		},
 		{
-			"Thithi": "Dwadashi 24:11",
-			"Nakshatram": "Vishakha 28:09",
-			"Rahukalam": "15:41-16:53",
+			"Thithi": "Saptami 26:45",
+			"Nakshatram": "Shatabhisha 07:31",
+			"Rahukalam": "15:40-16:52",
 			"Durmuhurtam": "15:36-16:14",
-			"Varjam": "10:30-12:02"
+			"Varjam": "14:28-16:12"
 		},
 		{
-			"Thithi": "Trayodashi 22:48",
-			"Nakshatram": "Anuradha 27:29",
-			"Rahukalam": "08:32-09:44",
-			"Durmuhurtam": "12:26-13:04",
-			"Varjam": "08:03-09:36"
+			"Thithi": "Ashtami 28:44",
+			"Nakshatram": "Purvabhadra 09:33",
+			"Rahukalam": "08:31-09:43",
+			"Durmuhurtam": "12:25-13:03, 14:20-14:58",
+			"Varjam": "20:11-21:57"
 		},
 		{
-			"Thithi": "Chaturdashi 21:47",
-			"Nakshatram": "Jyeshta 27:11",
-			"Rahukalam": "14:30-15:42",
-			"Durmuhurtam": "09:15-09:54",
-			"Varjam": "09:01-10:36"
+			"Thithi": "Navami 31:09",
+			"Nakshatram": "Uttarabhadra 12:07",
+			"Rahukalam": "14:30-15:41",
+			"Durmuhurtam": "09:15-09:53, 22:40-23:38",
+			"Varjam": "25:35-27:23"
 		},
 		{
-			"Thithi": "Amavasya 21:12",
-			"Nakshatram": "Mula 27:20",
-			"Rahukalam": "12:08-13:19",
-			"Durmuhurtam": "11:49-12:27",
-			"Varjam": "25:43-27:20"
+			"Thithi": "Dashami full night ",
+			"Nakshatram": "Revati 15:03",
+			"Rahukalam": "12:07-13:19",
+			"Durmuhurtam": "11:48-12:26",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Pousha Shukla, Prathama 21:09",
-			"Nakshatram": "Purvashada 28:00",
-			"Rahukalam": "13:20-14:32",
-			"Durmuhurtam": "10:33-11:11, 14:22-15:00",
-			"Varjam": "13:12-14:51"
+			"Thithi": "Dashami 09:47",
+			"Nakshatram": "Ashwini 18:06",
+			"Rahukalam": "13:19-14:31",
+			"Durmuhurtam": "10:32-11:10, 14:21-15:00",
+			"Varjam": "13:36-15:24"
 		},
 		{
-			"Thithi": "Dwitiya 21:40",
-			"Nakshatram": "Uttarashada 29:13",
-			"Rahukalam": "10:57-12:09",
-			"Durmuhurtam": "09:17-09:55",
-			"Varjam": "12:24-14:05"
+			"Thithi": "Ekadashi 12:24",
+			"Nakshatram": "Bharani 21:05",
+			"Rahukalam": "10:56-12:08",
+			"Durmuhurtam": "09:16-09:54, 12:27-13:05",
+			"Varjam": ""
 		},
 		{
-			"Thithi": "Tritiya 22:45",
-			"Nakshatram": "Shravana 31:00",
-			"Rahukalam": "09:46-10:57",
-			"Durmuhurtam": "07:22-08:39",
-			"Varjam": "09:31-11:14"
+			"Thithi": "26 Dvadashi 14:48",
+			"Nakshatram": "Krittika 23:49",
+			"Rahukalam": "09:45-10:57",
+			"Durmuhurtam": "07:22- 08:38",
+			"Varjam": "10:27-12:14"
 		},
 		{
-			"Thithi": "Chaturthi 24:24",
-			"Nakshatram": "Dhanishta Full Night",
-			"Rahukalam": "15:45-16:57",
-			"Durmuhurtam": "15:40-16:19",
-			"Varjam": "11:22-13:07"
+			"Thithi": "Trayodashi 16:50",
+			"Nakshatram": "Rohini 26:09",
+			"Rahukalam": "15:44-16:56",
+			"Durmuhurtam": "15:40-16:18",
+			"Varjam": "17:23-19:08"
 		},
 		{
-			"Thithi": "Panchami 26:31",
-			"Nakshatram": "Dhanishta 09:16",
-			"Rahukalam": "08:35-:09:47",
-			"Durmuhurtam": "12:29-13:08",
-			"Varjam": "17:17-19:04"
+			"Thithi": "Chaturdashi18:24",
+			"Nakshatram": "Mrigashirsha 28:02",
+			"Rahukalam": "08:34-09:46",
+			"Durmuhurtam": "08:34-09:46, 14:24-15:02",
+			"Varjam": "08:12-09:55"
 		},
 		{
-			"Thithi": "Shashti 28:57",
-			"Nakshatram": "Satabhisha 11:57",
-			"Rahukalam": "14:35-15:46",
-			"Durmuhurtam": "09:18-09:56",
-			"Varjam": "19:08-20:56"
+			"Thithi": "Purnima 19:28",
+			"Nakshatram": "Aardra 29:25",
+			"Rahukalam": "14:34-15:46",
+			"Durmuhurtam": "09:18-09:56, 22:44-23:41",
+			"Varjam": "12:55-14:37"
+		},
+		{
+			"Thithi": "Prathama 20:00",
+			"Nakshatram": "Punarvasu 30:19",
+			"Rahukalam": "12:11-13:22",
+			"Durmuhurtam": "11:51-12:30",
+			"Varjam": "17:52-19:31"
+		},
+		{
+			"Thithi": "Dvitiiya 20:03",
+			"Nakshatram": "Pushya 30:45",
+			"Rahukalam": "13:23-14:35",
+			"Durmuhurtam": "10:35-11:13, 14:25-15:04",
+			"Varjam": "14:27-16:05"
 		}
 	]
 }
@@ -2596,15 +2599,21 @@ def thithi(request):
         complete_message = update.message.text.split(' ')
         if complete_message[0] == '/tithi':
             try:
-                date_string = f"{datetime.datetime.today().date():%m-%d-%Y}" if str.upper(complete_message[1]) == 'TODAY' else complete_message[1]
-                print("date received: ", date_string)
+                #date_string = f"{datetime.datetime.today().date():%m-%d-%Y}" if str.upper(complete_message[1]) == 'TODAY' else complete_message[1]
+                if len(complete_message) == 1:
+                    date_string = f"{datetime.datetime.now(timezone('US/Pacific')):%m-%d-%Y}"
+                elif str.upper(complete_message[1]) == 'TODAY':
+                    date_string = f"{datetime.datetime.now(timezone('US/Pacific')):%m-%d-%Y}"
+                else:
+                    date_string = complete_message[1]
+                #print("date received: ", date_string)
                 date_check = datetime.datetime.strptime(date_string,"%m-%d-%Y")
             except:
                 res_text = 'Please enter a valid date in mm-dd-yyyy format'
             else:
                 r_date = date_string.split('-')
-                if(r_date[2] != '2019'):
-                   res_text = 'I can only give you 2019 details'
+                if(r_date[2] != '2020'):
+                   res_text = 'I can only give you 2020 details'
                 else:
                    try:
                        r_d = int(r_date[1]) - 1
@@ -2623,7 +2632,7 @@ def thithi(request):
         elif complete_message[0] == '/start':
             res_text = 'Hello! I am bot, please use /help to know what I can do'
         elif complete_message[0] == '/help':
-            res_text = 'I give the Tithi,  Nakshatra and other details for the given date of the current year(2019).\n To request send a command as /tithi <mm-dd-yyyy> \n The times mentioned are in PST'
+            res_text = '\nI give the Tithi,  Nakshatra and other details for the given date of the current year(2020).\n To request send a command as /tithi <mm-dd-yyyy> \n If no date is provided, it will use current date in PST zone.\n\n All the times mentioned are in PST'
         else:
             res_text = 'Invalid command entered, please use /help'
             
